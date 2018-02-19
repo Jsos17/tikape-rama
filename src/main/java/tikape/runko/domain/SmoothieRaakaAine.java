@@ -50,5 +50,4 @@ public class SmoothieRaakaAine {
      public Integer getId() {
         return id;
     }
-
 }
