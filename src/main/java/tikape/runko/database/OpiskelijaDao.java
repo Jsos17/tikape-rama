@@ -72,4 +72,9 @@ public class OpiskelijaDao implements Dao<Opiskelija, Integer> {
         // ei toteutettu
     }
 
+    @Override
+    public void save(Opiskelija element) throws SQLException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }

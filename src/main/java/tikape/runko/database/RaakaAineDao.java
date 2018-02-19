@@ -82,5 +82,17 @@ public class RaakaAineDao implements Dao<RaakaAine, Integer> {
         stmt.close();
         conn.close();
     }
+
+    @Override
+    public void save(RaakaAine raaka_aine) throws SQLException {
+        Connection conn = this.db.getConnection();
+        PreparedStatement stmt = conn.prepareStatement("INSERT INTO RaakaAine (nimi) VALUES (?");
+        stmt.setString(1, raaka_aine.getNimi());
+        
+        stmt.executeUpdate();
+        
+        stmt.close();
+        conn.close();
+    }
     
 }

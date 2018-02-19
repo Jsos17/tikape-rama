@@ -81,5 +81,17 @@ public class SmoothieDao implements Dao<Smoothie, Integer> {
         stmt.close();
         conn.close();
     }
+
+    @Override
+    public void save(Smoothie smoothie) throws SQLException {
+        Connection conn = this.db.getConnection();
+        PreparedStatement stmt = conn.prepareStatement("INSERT INTO Smoothie (nimi) VALUES (?)");
+        
+        stmt.setString(1, smoothie.getNimi());
+        
+        stmt.executeUpdate();
+        stmt.close();
+        conn.close();
+    }
     
 }
