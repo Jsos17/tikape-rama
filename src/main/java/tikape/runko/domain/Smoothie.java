@@ -19,6 +19,9 @@ public class Smoothie {
         this.nimi = nimi;
     }
     
+    public Smoothie() {
+    }
+    
      public Integer getId() {
         return id;
     }

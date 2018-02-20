@@ -41,6 +41,10 @@ public class Database {
         // tietokantataulujen luomiseen tarvittavat komennot suoritusjärjestyksessä
         lista.add("CREATE TABLE Smoothie (id integer PRIMARY KEY, nimi varchar(255));");
         lista.add("CREATE TABLE RaakaAine (id integer PRIMARY KEY, nimi varchar(255));");
+        lista.add("CREATE TABLE SmoothieRaakaAine (PRIMARY KEY (smoothie_id, raaka_aine_id), "
+                + "smoothie_id integer, raaka_aine_id integer, "
+                + "jarjestys integer, maara varchar(255), ohje varchar(1000), "
+                + "FOREIGN KEY (smoothie_id) REFERENCES Smoothie(id), FOREIGN KEY (raaka_aine_id) REFERENCES RaakaAine(id)");
 //        lista.add("INSERT INTO Opiskelija (nimi) VALUES ('Platon');");
 //        lista.add("INSERT INTO Opiskelija (nimi) VALUES ('Aristoteles');");
 //        lista.add("INSERT INTO Opiskelija (nimi) VALUES ('Homeros');");

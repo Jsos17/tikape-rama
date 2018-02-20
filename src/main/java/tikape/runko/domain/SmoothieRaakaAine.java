@@ -18,12 +18,41 @@ public class SmoothieRaakaAine {
     private String maara;
     private String ohje;
     
+    
+    
     public SmoothieRaakaAine(Integer id, Integer smoothie_id, Integer raaka_aine_id, Integer jarjestys, String maara, String ohje) {
         this.id = id;
         this.smoothie_id = smoothie_id;
         this.raaka_aine_id = raaka_aine_id;
         this.jarjestys = jarjestys;
         this.maara = maara;
+        this.ohje = ohje;
+    }
+    
+    public SmoothieRaakaAine() {
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setSmoothie_id(Integer smoothie_id) {
+        this.smoothie_id = smoothie_id;
+    }
+
+    public void setRaaka_aine_id(Integer raaka_aine_id) {
+        this.raaka_aine_id = raaka_aine_id;
+    }
+
+    public void setJarjestys(Integer jarjestys) {
+        this.jarjestys = jarjestys;
+    }
+
+    public void setMaara(String maara) {
+        this.maara = maara;
+    }
+
+    public void setOhje(String ohje) {
         this.ohje = ohje;
     }
 

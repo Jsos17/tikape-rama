@@ -18,6 +18,9 @@ public class RaakaAine {
         this.nimi = nimi;
     }
     
+    public RaakaAine() {
+    }
+    
      public Integer getId() {
         return id;
     }
