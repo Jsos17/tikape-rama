@@ -93,5 +93,10 @@ public class SmoothieDao implements Dao<Smoothie, Integer> {
         stmt.close();
         conn.close();
     }
+
+    @Override
+    public Smoothie saveOrUpdate(Smoothie element) throws SQLException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }

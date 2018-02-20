@@ -12,27 +12,27 @@ package tikape.runko.domain;
 public class SmoothieRaakaAine {
     
     private Integer id;
-    private Smoothie smoothie;
-    private RaakaAine raaka_aine;
+    private Integer smoothie_id;
+    private Integer raaka_aine_id;
     private Integer jarjestys;
     private String maara;
     private String ohje;
     
-    public SmoothieRaakaAine(Integer id, Smoothie smoothie, RaakaAine raaka_aine, Integer jarjestys, String maara, String ohje) {
+    public SmoothieRaakaAine(Integer id, Integer smoothie_id, Integer raaka_aine_id, Integer jarjestys, String maara, String ohje) {
         this.id = id;
-        this.smoothie = smoothie;
-        this.raaka_aine = raaka_aine;
+        this.smoothie_id = smoothie_id;
+        this.raaka_aine_id = raaka_aine_id;
         this.jarjestys = jarjestys;
         this.maara = maara;
         this.ohje = ohje;
     }
 
-    public Smoothie getSmoothie() {
-        return smoothie;
+    public Integer getSmoothieId() {
+        return smoothie_id;
     }
 
-    public RaakaAine getRaaka_aine() {
-        return raaka_aine;
+    public Integer getRaaka_aineId() {
+        return raaka_aine_id;
     }
 
     public Integer getJarjestys() {

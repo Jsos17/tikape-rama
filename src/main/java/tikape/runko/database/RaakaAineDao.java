@@ -94,5 +94,10 @@ public class RaakaAineDao implements Dao<RaakaAine, Integer> {
         stmt.close();
         conn.close();
     }
+
+    @Override
+    public RaakaAine saveOrUpdate(RaakaAine element) throws SQLException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }
