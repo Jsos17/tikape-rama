@@ -1,0 +1,32 @@
+<html>
+    
+    <head>
+      <title>Raaka-aineet</title>
+    </head>
+    
+    <body>
+      <h2>Raaka-aineet</h2>
+
+        <li th:each="arvo : ${raakaAineLista}">
+                <span th:text="${arvo}">
+                    
+                </span>
+                <form method="POST" th:action="@{~/raaka-aine/{RaakaAineNimi}/delete(RaakaAineNimi=${arvo})}"><input type="submit" value="Poista"/></form>
+
+        </li>
+      <h4>Lisää uusi raaka-aine</h4>
+
+      <form method="POST" action="">
+          Raaka-aineen nimi:<br/>
+          <input type="text" name="aine"/><br/>
+          <input type="submit" value="Lisää"/>
+      </form>
+
+      <ul>
+        <li>
+          <a href="../">Smoothielistaukseen</a>
+        </li>
+      </ul>
+    </body>  
+    
+</html>
