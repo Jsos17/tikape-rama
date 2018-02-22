@@ -60,14 +60,14 @@ public class Main {
         
         get("/", (req, res) -> {
             HashMap map = new HashMap<>();
-            map.put("viesti", "tervehdys");
+            map.put("smoothiet", smoothieDao.findAll());
 
             return new ModelAndView(map, "index");
         }, new ThymeleafTemplateEngine());
         
         get("/smoothiet/", (req, res) -> {
             HashMap map = new HashMap<>();
-            map.put("viesti", "tervehdys");
+            map.put("smoothiet", smoothieDao.findAll());
 
             return new ModelAndView(map, "smoothiet");
         }, new ThymeleafTemplateEngine());
