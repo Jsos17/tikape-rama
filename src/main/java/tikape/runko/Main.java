@@ -74,7 +74,7 @@ public class Main {
         
         get("/raaka-aineet/", (req, res) -> {
             HashMap map = new HashMap<>();
-            map.put("viesti", "tervehdys");
+            map.put("raakaAineLista", raDao.findAll());
 
             return new ModelAndView(map, "raakaaine");
         }, new ThymeleafTemplateEngine());
