@@ -33,5 +33,16 @@ public class Tilastot extends SmoothieRaakaAineDao implements Dao<SmoothieRaakaA
         return raavain.get(key);
     }
     
+    @Override
+    public SmoothieRaakaAine saveOrUpdate(SmoothieRaakaAine object)throws SQLException{
+        SmoothieRaakaAine aine = super.saveOrUpdate(object);
+        raavain.put(aine.getId(), aine);
+        return aine;
+    }
     
+    @Override
+    public void delete(Integer key) throws SQLException{
+        this.raavain.remove(key);
+        super.delete(key);
+    }
 }
