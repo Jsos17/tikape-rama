@@ -8,11 +8,11 @@
     <body>
       <h2>Raaka-aineet</h2>
 
-        <li th:each="arvo : ${raakaAineLista}">
-                <span th:text="${arvo}">
+        <li th:each="aine : ${raakaAineLista}">
+                <span th:text="${aine.nimu}">
                     
                 </span>
-                <form method="POST" th:action="@{~/raaka-aine/{RaakaAineNimi}/delete(RaakaAineNimi=${arvo})}"><input type="submit" value="Poista"/></form>
+                <form method="POST" th:action="@{~/raaka-aine/{RaakaAineNimi}/delete(RaakaAineNimi=${aine.nimi})}"><input type="submit" value="Poista"/></form>
 
         </li>
       <h4>Lisää uusi raaka-aine</h4>
