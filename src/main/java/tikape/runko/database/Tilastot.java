@@ -5,12 +5,44 @@
  */
 package tikape.runko.database;
 
+import java.sql.SQLException;
+import java.util.HashMap;
+import tikape.runko.domain.SmoothieRaakaAine;
+
 /**
  *
  * @author jpssilve
  */
-public class Tilastot {
+public class Tilastot extends SmoothieRaakaAineDao implements Dao<SmoothieRaakaAine, Integer>{
     
+    private HashMap<Integer, SmoothieRaakaAine> raavain;
     
+    public Tilastot(Database database) {
+        super(database);
+        this.raavain=new HashMap<>();
+    }
     
+    @Override
+    public SmoothieRaakaAine findOne(Integer key) throws SQLException{
+        if (!raavain.containsKey(key)){
+            SmoothieRaakaAine aine= super.findOne(key);
+            raavain.put(key, aine);
+        }
+        
+        
+        return raavain.get(key);
+    }
+    
+    @Override
+    public SmoothieRaakaAine saveOrUpdate(SmoothieRaakaAine object)throws SQLException{
+        SmoothieRaakaAine aine = super.saveOrUpdate(object);
+        raavain.put(aine.getId(), aine);
+        return aine;
+    }
+    
+    @Override
+    public void delete(Integer key) throws SQLException{
+        this.raavain.remove(key);
+        super.delete(key);
+    }
 }
