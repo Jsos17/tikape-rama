@@ -65,25 +65,40 @@ public class Main {
             return new ModelAndView(map, "index");
         }, new ThymeleafTemplateEngine());
         
+        get("/smoothiet/", (req, res) -> {
+            HashMap map = new HashMap<>();
+            map.put("viesti", "tervehdys");
+
+            return new ModelAndView(map, "smoothiet");
+        }, new ThymeleafTemplateEngine());
+        
+        get("/raaka-aineet/", (req, res) -> {
+            HashMap map = new HashMap<>();
+            map.put("viesti", "tervehdys");
+
+            return new ModelAndView(map, "raakaaine");
+        }, new ThymeleafTemplateEngine());
+        
+        
         //POST pyynnön käsittely (raaka-aineen lisääminen) raaka-aineet sivustolla
-        Spark.post("/raaka-aineet", (req,res)->{
+        Spark.post("/raaka-aineet/", (req,res)->{
             String aineNimi = req.queryParams("aine");
             RaakaAine ra = new RaakaAine(raakaAineet.size() + 1, aineNimi);
 
             raakaAineet.add(ra);
             raDao.save(ra);
-            res.redirect("/raaka-aineet");
+            res.redirect("/raaka-aineet/");
             return "";
         });
         
        //POST pyynnön käsittely (smoothien lisääminen) smoothiet sivustolla
-        Spark.post("/smoothiet", (req,res)->{
+        Spark.post("/smoothiet/", (req,res)->{
             String smoothieNimi = req.queryParams("nimi");
             Smoothie s = new Smoothie(smoothiet.size() + 1, smoothieNimi);
 
             smoothiet.add(s);
             smoothieDao.save(s);
-            res.redirect("/smoothiet");
+            res.redirect("/smoothiet/");
             return "";
         });
         
