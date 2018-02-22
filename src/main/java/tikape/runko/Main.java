@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import spark.ModelAndView;
+import spark.Spark;
 import static spark.Spark.*;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
 import tikape.runko.database.Database;
@@ -11,6 +12,7 @@ import tikape.runko.database.OpiskelijaDao;
 import tikape.runko.database.RaakaAineDao;
 import tikape.runko.database.SmoothieDao;
 import tikape.runko.database.SmoothieRaakaAineDao;
+import tikape.runko.domain.RaakaAine;
 import tikape.runko.domain.Smoothie;
 import tikape.runko.domain.SmoothieRaakaAine;
 
@@ -49,8 +51,11 @@ public class Main {
         database.init();
 
         SmoothieDao smoothieDao = new SmoothieDao(database);
+                ArrayList <Smoothie> smoothiet = new ArrayList<>();
         RaakaAineDao raDao = new RaakaAineDao(database);
+                ArrayList<RaakaAine> raakaAineet = new ArrayList<>();
         SmoothieRaakaAineDao sraDao = new SmoothieRaakaAineDao(database);
+                ArrayList <SmoothieRaakaAine> SmoothieRaakaAineet = new ArrayList<>();
         
         
         get("/", (req, res) -> {
@@ -59,6 +64,34 @@ public class Main {
 
             return new ModelAndView(map, "index");
         }, new ThymeleafTemplateEngine());
+        
+        //POST pyynnön käsittely (raaka-aineen lisääminen) raaka-aineet sivustolla
+        Spark.post("/raaka-aineet", (req,res)->{
+            String aineNimi = req.queryParams("aine");
+            RaakaAine ra = new RaakaAine(raakaAineet.size() + 1, aineNimi);
+
+            raakaAineet.add(ra);
+            raDao.save(ra);
+            res.redirect("/raaka-aineet");
+            return "";
+        });
+        
+       //POST pyynnön käsittely (smoothien lisääminen) smoothiet sivustolla
+        Spark.post("/smoothiet", (req,res)->{
+            String smoothieNimi = req.queryParams("nimi");
+            Smoothie s = new Smoothie(smoothiet.size() + 1, smoothieNimi);
+
+            smoothiet.add(s);
+            smoothieDao.save(s);
+            res.redirect("/smoothiet");
+            return "";
+        });
+        
+        
+        
+        
+        
+        
 
        
     }

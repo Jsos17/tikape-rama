@@ -9,7 +9,7 @@
       <h2>Raaka-aineet</h2>
 
         <li th:each="aine : ${raakaAineLista}">
-                <span th:text="${aine.nimu}">
+                <span th:text="${aine.nimi}">
                     
                 </span>
                 <form method="POST" th:action="@{~/raaka-aine/{RaakaAineNimi}/delete(RaakaAineNimi=${aine.nimi})}"><input type="submit" value="Poista"/></form>
