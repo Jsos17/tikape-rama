@@ -92,11 +92,26 @@ public class SmoothieDao implements Dao<Smoothie, Integer> {
         stmt.executeUpdate();
         stmt.close();
         conn.close();
+//        saveOrUpdate(smoothie);
     }
 
     @Override
     public Smoothie saveOrUpdate(Smoothie element) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Connection conn = this.db.getConnection();
+        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Smoothie WHERE id = ?");
+        stmt.setInt(1, element.getId());
+        
+        ResultSet rs = stmt.executeQuery();
+        Smoothie sm  = null;
+        
+        if (!rs.next()) {
+            try (PreparedStatement stmt2 = conn.prepareStatement("INSERT INTO Smoothie (nimi) VALUES (?)")) {
+                    stmt2.setString(1, element.getNimi());
+                    stmt2.executeUpdate();
+                }
+        } 
+               
+        return new  Smoothie(element.getId(), element.getNimi());
     }
     
 }

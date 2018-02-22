@@ -96,8 +96,22 @@ public class RaakaAineDao implements Dao<RaakaAine, Integer> {
     }
 
     @Override
-    public RaakaAine saveOrUpdate(RaakaAine element) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public RaakaAine saveOrUpdate(RaakaAine ra) throws SQLException {
+        
+        Connection conn = this.db.getConnection();
+        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM RaakaAine WHERE id = ?");
+        stmt.setInt(1, ra.getId());
+        
+        ResultSet rs = stmt.executeQuery();
+        
+        if (!rs.next()) {
+            try (PreparedStatement stmt2 = conn.prepareStatement("INSERT INTO RaakaAine (nimi) VALUES (?)")) {
+                    stmt2.setString(1, ra.getNimi());
+                    stmt2.executeUpdate();
+                }
+        }
+        
+        return new RaakaAine(ra.getId(), ra.getNimi());
     }
     
 }

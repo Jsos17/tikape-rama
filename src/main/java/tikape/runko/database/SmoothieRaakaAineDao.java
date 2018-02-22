@@ -109,7 +109,13 @@ public class SmoothieRaakaAineDao implements Dao<SmoothieRaakaAine, Integer> {
     }
 
     @Override
-    public SmoothieRaakaAine saveOrUpdate(SmoothieRaakaAine element) throws SQLException {
+    public SmoothieRaakaAine saveOrUpdate(SmoothieRaakaAine smra) throws SQLException {
+        
+        Connection conn = this.db.getConnection();
+        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM SmoothieRaakaAine WHERE id = ?");
+        
+        
+        
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
