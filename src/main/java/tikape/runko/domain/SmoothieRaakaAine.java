@@ -18,8 +18,6 @@ public class SmoothieRaakaAine {
     private String maara;
     private String ohje;
     
-    
-    
     public SmoothieRaakaAine(Integer id, Integer smoothie_id, Integer raaka_aine_id, Integer jarjestys, String maara, String ohje) {
         this.id = id;
         this.smoothie_id = smoothie_id;

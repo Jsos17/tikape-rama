@@ -28,95 +28,102 @@ public class SmoothieRaakaAineDao implements Dao<SmoothieRaakaAine, Integer> {
 
     @Override
     public SmoothieRaakaAine findOne(Integer key) throws SQLException {
-        Connection conn = this.db.getConnection();
-        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM SmoothieRaakaAine WHERE id = ?");
-        stmt.setInt(1, key);
-
-        ResultSet rs = stmt.executeQuery();
-
-        if (!rs.next()) {
-            return null;
-        }
-
-        Integer id = rs.getInt("id");
-        Integer smoothie_id = rs.getInt("smoothie_id");
-        Integer raaka_aine_id = rs.getInt("raaka_aine_id");
-        Integer jarjestys = rs.getInt("jarjestys");
-        String maara = rs.getString("maara");
-        String ohje = rs.getString("ohje");
-
-        SmoothieRaakaAine sra = new SmoothieRaakaAine(id, smoothie_id, raaka_aine_id, jarjestys, maara, ohje);
-
-        rs.close();
-        stmt.close();
-        conn.close();
-
-        return sra;
-    }
-
-    @Override
-    public List<SmoothieRaakaAine> findAll() throws SQLException {
-        Connection conn = this.db.getConnection();
-        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM SmoothieRaakaAine");
-
-        ResultSet rs = stmt.executeQuery();
-        List<SmoothieRaakaAine> sm_raaka_aineet = new ArrayList<>();
-
-        while (rs.next()) {
+        SmoothieRaakaAine sra;
+        try (Connection conn = this.db.getConnection(); 
+                PreparedStatement stmt = conn.prepareStatement("SELECT * FROM SmoothieRaakaAine WHERE id = ?")) {
+            
+            stmt.setInt(1, key);
+            ResultSet rs = stmt.executeQuery();
+            
+            if (!rs.next()) {
+                return null;
+            }   
+            
             Integer id = rs.getInt("id");
             Integer smoothie_id = rs.getInt("smoothie_id");
             Integer raaka_aine_id = rs.getInt("raaka_aine_id");
             Integer jarjestys = rs.getInt("jarjestys");
             String maara = rs.getString("maara");
             String ohje = rs.getString("ohje");
-
-            sm_raaka_aineet.add(new SmoothieRaakaAine(id, smoothie_id, raaka_aine_id, jarjestys, maara, ohje));
+            sra = new SmoothieRaakaAine(id, smoothie_id, raaka_aine_id, jarjestys, maara, ohje);
+            rs.close();
         }
 
-        rs.close();
-        stmt.close();
-        conn.close();
+        return sra;
+    }
+
+    @Override
+    public List<SmoothieRaakaAine> findAll() throws SQLException {
+        List<SmoothieRaakaAine> sm_raaka_aineet = new ArrayList<>();
+        try (Connection conn = this.db.getConnection(); 
+                PreparedStatement stmt = conn.prepareStatement("SELECT * FROM SmoothieRaakaAine")) {
+            
+            ResultSet rs = stmt.executeQuery();
+            
+            while (rs.next()) {
+                Integer id = rs.getInt("id");
+                Integer smoothie_id = rs.getInt("smoothie_id");
+                Integer raaka_aine_id = rs.getInt("raaka_aine_id");
+                Integer jarjestys = rs.getInt("jarjestys");
+                String maara = rs.getString("maara");
+                String ohje = rs.getString("ohje");
+                
+                sm_raaka_aineet.add(new SmoothieRaakaAine(id, smoothie_id, raaka_aine_id, jarjestys, maara, ohje));
+            }   
+            
+            rs.close();
+        }
 
         return sm_raaka_aineet;
     }
 
     @Override
     public void delete(Integer key) throws SQLException {
-        Connection conn = this.db.getConnection();
-        PreparedStatement stmt = conn.prepareStatement("DELETE * FROM SmoothieRaakaAine WHERE id = ?");
-        stmt.setInt(1, key);
-        
-        stmt.executeUpdate();
-        
-        stmt.close();
-        conn.close();
+        try (Connection conn = this.db.getConnection(); 
+                PreparedStatement stmt = conn.prepareStatement("DELETE * FROM SmoothieRaakaAine WHERE id = ?")) {
+            
+            stmt.setInt(1, key);
+            stmt.executeUpdate();
+        }
     }
 
     @Override
-    public void save(SmoothieRaakaAine sra) throws SQLException {
-        Connection conn = this.db.getConnection();
-        PreparedStatement stmt = conn.prepareStatement("INSERT INTO SmoothieRaakAine (smoothie_id, raaka_aine_ id, jarjestys, maara, ohje) VALUES (?, ?, ?, ?, ?)");
-        stmt.setInt(1, sra.getSmoothieId());
-        stmt.setInt(2, sra.getRaaka_aineId());
-        stmt.setInt(3, sra.getJarjestys());
-        stmt.setString(4, sra.getMaara());
-        stmt.setString(5, sra.getOhje());
+    public SmoothieRaakaAine save(SmoothieRaakaAine sra) throws SQLException {
+//        SmoothieRaakaAine smra = new SmoothieRaakaAine();
+        try (Connection conn = this.db.getConnection(); 
+                PreparedStatement stmt = conn.prepareStatement("INSERT INTO SmoothieRaakAine (smoothie_id, raaka_aine_ id, jarjestys, maara, ohje) VALUES (?, ?, ?, ?, ?)")) {
+            
+            stmt.setInt(1, sra.getSmoothieId());
+            stmt.setInt(2, sra.getRaaka_aineId());
+            stmt.setInt(3, sra.getJarjestys());
+            stmt.setString(4, sra.getMaara());
+            stmt.setString(5, sra.getOhje());
+            
+            stmt.executeUpdate();
+            
+            PreparedStatement stmt2 = conn.prepareStatement("SELECT * FROM SmoothieRaakaAine WHERE id = ?"); 
+            ResultSet rs = stmt2.executeQuery();
+            
+            sra.setId(rs.getInt("id"));
+        }
         
-        
-        stmt.executeUpdate();
-        stmt.close();
-        conn.close();
+        return sra;
     }
 
     @Override
     public SmoothieRaakaAine saveOrUpdate(SmoothieRaakaAine smra) throws SQLException {
         
-        Connection conn = this.db.getConnection();
-        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM SmoothieRaakaAine WHERE id = ?");
+        try (Connection conn = this.db.getConnection();
+            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM SmoothieRaakaAine WHERE id = ?")) {
+            
+            ResultSet rs = stmt.executeQuery();
+            
+            if (!rs.next()) {
+                smra = save(smra);
+            }
+        }
         
-        
-        
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return smra;
     }
 
 }

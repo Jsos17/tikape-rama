@@ -30,15 +30,22 @@
         <form method="POST" action="">
             Smoothien nimi:<br/>
             <select name="smoothie">
-              <option name="2">Aurinkolasit</option>
-              <option name="1">Mustikkaplorays</option>
+              <option th:each="smoothie: ${smoothiet}"
+                      th:value="${smoothie.nimi}"
+                      th:text="${smoothie.nimi}">  
+              </option>
             </select>
             <br/>
             Lisättävä raaka-aine<br/>
-            <select name="raakaAine">
-              <option name="1">Appelsiini</option>
+            <select name="raakaaine">
+                <option th:each="raakaaine: ${raakaAineLista}"
+                      th:value="${raakaaine.nimi}"
+                      th:text="${raakaaine.nimi}">  
+              </option>
+                
+<!--              <option name="1">Appelsiini</option>
               <option name="2">Banaani</option>
-              <option name="...">...</option>
+              <option name="...">...</option>-->
             </select>
             <br/>
             Järjestys<br/>
@@ -52,7 +59,7 @@
 
         <ul>
           <li>
-            <a href="../">Smoothielistaukseen</a>
+            <a href="..">Smoothielistaukseen</a>
           </li>
         </ul>
     </body>

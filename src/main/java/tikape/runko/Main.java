@@ -8,7 +8,6 @@ import spark.Spark;
 import static spark.Spark.*;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
 import tikape.runko.database.Database;
-import tikape.runko.database.OpiskelijaDao;
 import tikape.runko.database.RaakaAineDao;
 import tikape.runko.database.SmoothieDao;
 import tikape.runko.database.SmoothieRaakaAineDao;
@@ -51,11 +50,12 @@ public class Main {
         database.init();
 
         SmoothieDao smoothieDao = new SmoothieDao(database);
-                ArrayList <Smoothie> smoothiet = new ArrayList<>();
         RaakaAineDao raDao = new RaakaAineDao(database);
-                ArrayList<RaakaAine> raakaAineet = new ArrayList<>();
         SmoothieRaakaAineDao sraDao = new SmoothieRaakaAineDao(database);
-                ArrayList <SmoothieRaakaAine> SmoothieRaakaAineet = new ArrayList<>();
+        
+//        ArrayList <Smoothie> smoothiet = new ArrayList<>();
+//        ArrayList<RaakaAine> raakaAineet = new ArrayList<>();
+//        ArrayList <SmoothieRaakaAine> SmoothieRaakaAineet = new ArrayList<>();
         
         
         get("/", (req, res) -> {
@@ -65,42 +65,65 @@ public class Main {
             return new ModelAndView(map, "index");
         }, new ThymeleafTemplateEngine());
         
-        get("/smoothiet/", (req, res) -> {
+        get("/smoothiet", (req, res) -> {
             HashMap map = new HashMap<>();
             map.put("smoothiet", smoothieDao.findAll());
+            map.put("raakaAineLista", raDao.findAll());
 
             return new ModelAndView(map, "smoothiet");
         }, new ThymeleafTemplateEngine());
         
-        get("/raaka-aineet/", (req, res) -> {
+        get("/raaka-aineet", (req, res) -> {
             HashMap map = new HashMap<>();
             map.put("raakaAineLista", raDao.findAll());
+            
 
             return new ModelAndView(map, "raakaaine");
         }, new ThymeleafTemplateEngine());
         
         
         //POST pyynnön käsittely (raaka-aineen lisääminen) raaka-aineet sivustolla
-        Spark.post("/raaka-aineet/", (req,res)->{
+        Spark.post("/raaka-aineet", (req,res)->{
             String aineNimi = req.queryParams("aine");
-            RaakaAine ra = new RaakaAine(raakaAineet.size() + 1, aineNimi);
+            if (!aineNimi.equals("")) {
+                RaakaAine ra = new RaakaAine();
+                ra.setNimi(aineNimi);
 
-            raakaAineet.add(ra);
-            raDao.save(ra);
-            res.redirect("/raaka-aineet/");
+    //            RaakaAine ra = new RaakaAine(raakaAineet.size() + 1, aineNimi);
+    //            raakaAineet.add(ra);
+
+                raDao.saveOrUpdate(ra);
+                }
+                res.redirect("/raaka-aineet");
             return "";
         });
         
        //POST pyynnön käsittely (smoothien lisääminen) smoothiet sivustolla
-        Spark.post("/smoothiet/", (req,res)->{
+        Spark.post("/smoothiet", (req,res)->{
             String smoothieNimi = req.queryParams("nimi");
-            Smoothie s = new Smoothie(smoothiet.size() + 1, smoothieNimi);
+            
+            if (!smoothieNimi.equals("")) {
+                Smoothie s = new Smoothie();
+                s.setNimi(smoothieNimi);
 
-            smoothiet.add(s);
-            smoothieDao.save(s);
-            res.redirect("/smoothiet/");
+    //            Smoothie s = new Smoothie(smoothiet.size() + 1, smoothieNimi);
+    //            smoothiet.add(s);
+
+                smoothieDao.saveOrUpdate(s);
+            }
+            
+            res.redirect("/smoothiet");
             return "";
         });
+        
+        Spark.post("/raaka-aineet/:id/delete", (req, res) -> {
+           
+            raDao.delete(Integer.parseInt(req.params(":id")));
+            
+            res.redirect("/raaka-aineet");
+            return "";
+        });
+        
         
         
         

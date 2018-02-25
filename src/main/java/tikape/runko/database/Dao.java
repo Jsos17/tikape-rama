@@ -7,7 +7,7 @@ public interface Dao<T, K> {
 
     T findOne(K key) throws SQLException;
     
-    void save(T element) throws SQLException;
+    T save(T element) throws SQLException;
     
     T saveOrUpdate(T element) throws SQLException;
 

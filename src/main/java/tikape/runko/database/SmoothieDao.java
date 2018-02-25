@@ -26,92 +26,92 @@ public class SmoothieDao implements Dao<Smoothie, Integer> {
 
     @Override
     public Smoothie findOne(Integer key) throws SQLException {
-        Connection conn = this.db.getConnection();
-        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Smoothie WHERE = ?");
-        stmt.setInt(1, key);
-        
-        ResultSet rs = stmt.executeQuery();
-        
-        if (!rs.next()) {
-            return null;
+        Smoothie smoothie;
+        try (Connection conn = this.db.getConnection(); 
+                PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Smoothie WHERE = ?")) {
+            
+            stmt.setInt(1, key);
+            ResultSet rs = stmt.executeQuery();
+            if (!rs.next()) {
+                return null;
+            }   
+            
+            Integer id = rs.getInt("id");
+            String nimi = rs.getString("nimi");
+            smoothie = new Smoothie(id, nimi);
+            rs.close();
         }
-        
-        Integer id = rs.getInt("id");
-        String nimi = rs.getString("nimi");
-        
-        Smoothie smoothie = new Smoothie(id, nimi);
-        
-        rs.close();
-        stmt.close();
-        conn.close();
         
         return smoothie;
     }
 
     @Override
     public List<Smoothie> findAll() throws SQLException {
-        Connection conn = this.db.getConnection();
-        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Smoothie");
-
-        ResultSet rs = stmt.executeQuery();
-        List<Smoothie> smoothiet = new ArrayList<>(); 
+        List<Smoothie> smoothiet = new ArrayList<>();
         
-        while (rs.next()) {
-            Integer id = rs.getInt("id");
-            String nimi = rs.getString("nimi");
+        try (Connection conn = this.db.getConnection(); 
+                PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Smoothie")) {
             
-            smoothiet.add(new Smoothie(id, nimi));
+            ResultSet rs = stmt.executeQuery();
+            
+            while (rs.next()) {
+                Integer id = rs.getInt("id");
+                String nimi = rs.getString("nimi");
+                
+                smoothiet.add(new Smoothie(id, nimi));
+            }   
+            
+            rs.close();
         }
-        
-        rs.close();
-        stmt.close();
-        conn.close();
         
         return smoothiet;
     }
 
     @Override
     public void delete(Integer key) throws SQLException {
-        Connection conn = this.db.getConnection();
-        PreparedStatement stmt = conn.prepareStatement("DELETE * FROM Smoothie WHERE id = ?");
-        stmt.setInt(1, key);
-        
-        stmt.executeUpdate();
-        
-        stmt.close();
-        conn.close();
+        try (Connection conn = this.db.getConnection(); 
+                PreparedStatement stmt = conn.prepareStatement("DELETE * FROM Smoothie WHERE id = ?")) {
+            
+            stmt.setInt(1, key);
+            stmt.executeUpdate();            
+        }
     }
 
     @Override
-    public void save(Smoothie smoothie) throws SQLException {
-        Connection conn = this.db.getConnection();
-        PreparedStatement stmt = conn.prepareStatement("INSERT INTO Smoothie (nimi) VALUES (?)");
+    public Smoothie save(Smoothie smoothie) throws SQLException {
+        try (Connection conn = this.db.getConnection(); 
+                PreparedStatement stmt = conn.prepareStatement("INSERT INTO Smoothie (nimi) VALUES (?)")) {
+            
+            stmt.setString(1, smoothie.getNimi());
+            stmt.executeUpdate();
+            
+            
+            PreparedStatement stmt_2 = conn.prepareStatement("SELECT * FROM Smoothie WHERE nimi = ?");
+            stmt_2.setString(1, smoothie.getNimi());
+            
+            ResultSet rs = stmt_2.executeQuery();
+            smoothie.setId(rs.getInt("id"));
+//            smoothie.setNimi(rs.getString("nimi"));
+        }
         
-        stmt.setString(1, smoothie.getNimi());
-        
-        stmt.executeUpdate();
-        stmt.close();
-        conn.close();
-//        saveOrUpdate(smoothie);
+        return smoothie;
     }
 
     @Override
-    public Smoothie saveOrUpdate(Smoothie element) throws SQLException {
-        Connection conn = this.db.getConnection();
-        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Smoothie WHERE id = ?");
-        stmt.setInt(1, element.getId());
+    public Smoothie saveOrUpdate(Smoothie smoothie) throws SQLException {
         
-        ResultSet rs = stmt.executeQuery();
-        Smoothie sm  = null;
-        
-        if (!rs.next()) {
-            try (PreparedStatement stmt2 = conn.prepareStatement("INSERT INTO Smoothie (nimi) VALUES (?)")) {
-                    stmt2.setString(1, element.getNimi());
-                    stmt2.executeUpdate();
-                }
-        } 
+        try (Connection conn = this.db.getConnection();
+        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Smoothie WHERE nimi = ?")) {
+            stmt.setString(1, smoothie.getNimi());
+
+            ResultSet rs = stmt.executeQuery();
+            
+            if (!rs.next()) {
+                smoothie = save(smoothie);
+            } 
+        }
                
-        return new  Smoothie(element.getId(), element.getNimi());
+        return smoothie;
     }
     
 }

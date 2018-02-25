@@ -18,100 +18,101 @@ import tikape.runko.domain.RaakaAine;
  * @author jpssilve
  */
 public class RaakaAineDao implements Dao<RaakaAine, Integer> {
-    
+
     private Database db;
-    
+
     public RaakaAineDao(Database db) {
         this.db = db;
     }
 
     @Override
     public RaakaAine findOne(Integer key) throws SQLException {
-        Connection conn = this.db.getConnection();
-        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM RaakaAine WHERE id = ?");
-        stmt.setInt(1, key);
         
-        ResultSet rs = stmt.executeQuery();
-        
-        if (!rs.next()) {
-            return null;
+        RaakaAine ra = null;
+        try (Connection conn = this.db.getConnection()) {
+            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM RaakaAine WHERE id = ?");
+            stmt.setInt(1, key);
+            ResultSet rs = stmt.executeQuery();
+            
+            if (!rs.next()) {
+                return null;
+            }   Integer id = rs.getInt("id");
+            
+            String nimi = rs.getString("nimi");
+            ra = new RaakaAine(id, nimi);
+            rs.close();
+            stmt.close();
         }
-        
-        Integer id = rs.getInt("id");
-        String nimi = rs.getString("nimi");
-        
-        RaakaAine ra = new RaakaAine(id, nimi);
-        
-        rs.close();
-        stmt.close();
-        conn.close();
-        
+
         return ra;
     }
 
     @Override
     public List<RaakaAine> findAll() throws SQLException {
-        Connection conn = this.db.getConnection();
-        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM RaakaAine");
+        List<RaakaAine> r_aineet = new ArrayList<>();
 
-        ResultSet rs = stmt.executeQuery();
-        List<RaakaAine> r_aineet = new ArrayList<>(); 
-        
-        while (rs.next()) {
-            Integer id = rs.getInt("id");
-            String nimi = rs.getString("nimi");
-            
-            r_aineet.add(new RaakaAine(id, nimi));
+        try (Connection conn = this.db.getConnection();
+                PreparedStatement stmt = conn.prepareStatement("SELECT * FROM RaakaAine")) {
+
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Integer id = rs.getInt("id");
+                String nimi = rs.getString("nimi");
+                r_aineet.add(new RaakaAine(id, nimi));
+            }
+
+            rs.close();
+//            stmt.close();
+//            conn.close();
         }
-        
-        rs.close();
-        stmt.close();
-        conn.close();
-        
         return r_aineet;
     }
 
     @Override
     public void delete(Integer key) throws SQLException {
-        Connection conn = this.db.getConnection();
-        PreparedStatement stmt = conn.prepareStatement("DELETE * FROM RaakaAine WHERE id = ?");
-        stmt.setInt(1, key);
-        
-        stmt.executeUpdate();
-        
-        stmt.close();
-        conn.close();
+        try (Connection conn = this.db.getConnection(); 
+                PreparedStatement stmt = conn.prepareStatement("DELETE FROM RaakaAine WHERE id = ?")) {
+            
+            stmt.setInt(1, key);
+            stmt.executeUpdate();
+        }
     }
 
     @Override
-    public void save(RaakaAine raaka_aine) throws SQLException {
-        Connection conn = this.db.getConnection();
-        PreparedStatement stmt = conn.prepareStatement("INSERT INTO RaakaAine (nimi) VALUES (?)");
-        stmt.setString(1, raaka_aine.getNimi());
-        
-        stmt.executeUpdate();
-        
-        stmt.close();
-        conn.close();
-    }
-
-    @Override
-    public RaakaAine saveOrUpdate(RaakaAine ra) throws SQLException {
-        
-        Connection conn = this.db.getConnection();
-        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM RaakaAine WHERE id = ?");
-        stmt.setInt(1, ra.getId());
-        
-        ResultSet rs = stmt.executeQuery();
-        
-        if (!rs.next()) {
-            try (PreparedStatement stmt2 = conn.prepareStatement("INSERT INTO RaakaAine (nimi) VALUES (?)")) {
-                    stmt2.setString(1, ra.getNimi());
-                    stmt2.executeUpdate();
-                }
+    public RaakaAine save(RaakaAine raaka_aine) throws SQLException {
+        try (Connection conn = this.db.getConnection(); 
+                PreparedStatement stmt = conn.prepareStatement("INSERT INTO RaakaAine (nimi) VALUES (?)")) {
+            
+            stmt.setString(1, raaka_aine.getNimi());
+            stmt.executeUpdate();
+            
+            PreparedStatement stmt_2 = conn.prepareStatement("SELECT * FROM RaakaAine WHERE nimi = ?");
+            stmt_2.setString(1, raaka_aine.getNimi());
+            
+            ResultSet rs = stmt_2.executeQuery();
+            raaka_aine.setId(rs.getInt("id"));
+//            raaka_aine.setNimi(rs.getString("nimi"));
         }
         
-        return new RaakaAine(ra.getId(), ra.getNimi());
+        return raaka_aine;
     }
-    
+
+    @Override
+    public RaakaAine saveOrUpdate(RaakaAine raaka_aine) throws SQLException {
+
+        try (Connection conn = this.db.getConnection();
+        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM RaakaAine WHERE nimi = ?")) {
+            stmt.setString(1, raaka_aine.getNimi());
+
+            ResultSet rs = stmt.executeQuery();
+
+            if (!rs.next()) {
+                raaka_aine = save(raaka_aine);
+            }
+        }
+
+        return raaka_aine;
+    }
+
 }

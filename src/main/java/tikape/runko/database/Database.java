@@ -45,9 +45,6 @@ public class Database {
                 + "smoothie_id integer, raaka_aine_id integer, "
                 + "jarjestys integer, maara varchar(255), ohje varchar(1000), "
                 + "FOREIGN KEY (smoothie_id) REFERENCES Smoothie(id), FOREIGN KEY (raaka_aine_id) REFERENCES RaakaAine(id)");
-//        lista.add("INSERT INTO Opiskelija (nimi) VALUES ('Platon');");
-//        lista.add("INSERT INTO Opiskelija (nimi) VALUES ('Aristoteles');");
-//        lista.add("INSERT INTO Opiskelija (nimi) VALUES ('Homeros');");
 
         return lista;
     }

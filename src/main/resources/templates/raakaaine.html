@@ -12,7 +12,9 @@
                 <span th:text="${aine.nimi}">
                     
                 </span>
-                <form method="POST" th:action="@{~/raaka-aineet/{RaakaAineNimi}/delete(RaakaAineNimi=${aine.nimi})}"><input type="submit" value="Poista"/></form>
+                <form method="POST" th:action="@{~/raaka-aineet/{RaakaAineId}/delete(RaakaAineId=${aine.id})}">
+                    <input type="submit" value="Poista"/>
+                </form>
 
         </li>
       <h4>Lisää uusi raaka-aine</h4>
@@ -25,7 +27,7 @@
 
       <ul>
         <li>
-          <a href="../">Smoothielistaukseen</a>
+          <a href="..">Smoothielistaukseen</a>
         </li>
       </ul>
     </body>  
