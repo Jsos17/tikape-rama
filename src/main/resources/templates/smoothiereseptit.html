@@ -1,0 +1,21 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+        <title>Smoothie-Reseptit</title>
+        <meta charset="utf-8" />
+    </head>
+    
+    <body>
+        <h2>Smoothie-Reseptit</h2>
+        
+        <ul>
+            <li th:each="smoothieRaakaAine : ${smoothieRaakaAineet}">
+                <span th:text="${smoothieRaakaAine.jarjestys}"></span>
+                <span th:text="${smoothieRaakaAine.maara}"></span>
+                <span th:text="${smoothieRaakaAine.ohje}"></span>
+            </li>
+        </ul>
+        
+    </body>
+</html>

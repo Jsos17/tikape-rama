@@ -14,11 +14,11 @@ public class SmoothieRaakaAine {
     private Integer id;
     private Integer smoothie_id;
     private Integer raaka_aine_id;
-    private Integer jarjestys;
+    private String jarjestys;
     private String maara;
     private String ohje;
     
-    public SmoothieRaakaAine(Integer id, Integer smoothie_id, Integer raaka_aine_id, Integer jarjestys, String maara, String ohje) {
+    public SmoothieRaakaAine(Integer id, Integer smoothie_id, Integer raaka_aine_id, String jarjestys, String maara, String ohje) {
         this.id = id;
         this.smoothie_id = smoothie_id;
         this.raaka_aine_id = raaka_aine_id;
@@ -42,7 +42,7 @@ public class SmoothieRaakaAine {
         this.raaka_aine_id = raaka_aine_id;
     }
 
-    public void setJarjestys(Integer jarjestys) {
+    public void setJarjestys(String jarjestys) {
         this.jarjestys = jarjestys;
     }
 
@@ -62,7 +62,7 @@ public class SmoothieRaakaAine {
         return raaka_aine_id;
     }
 
-    public Integer getJarjestys() {
+    public String getJarjestys() {
         return jarjestys;
     }
 

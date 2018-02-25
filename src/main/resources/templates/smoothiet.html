@@ -8,14 +8,20 @@
     
     <body>
         <h2>Smoothiet</h2>
+        <p>Klikkaa linkkiä päästäksesi katsomaan smoothien reseptiä</p>
+        <p>Jos smoothieita ei vielä ole lisätty tai haluat luoda uuden, niin mene "Lisää uusi" kohtaan</p>
+        <p>Lisää raaka-aineita kohdassa voit muokata smoothien reseptiä</p>
+        
         <ul>
 
             <li th:each="smoothie : ${smoothiet}">
-                <span th:text="${smoothie.nimi}">   
-                </span>
+                <a href="/smoothiereseptit">
+                    <span th:text="${smoothie.nimi}"></span>
+                </a>
             </li>
         </ul>
 
+            
 
         <h4>Lisää uusi</h4>
   
@@ -26,8 +32,9 @@
         </form>
 
         <h4>Lisää raaka-aineita</h4>
+        
 
-        <form method="POST" action="">
+        <form method="POST" action="/smoothiereseptit">
             Smoothien nimi:<br/>
             <select name="smoothie">
               <option th:each="smoothie: ${smoothiet}"
@@ -41,19 +48,16 @@
                 <option th:each="raakaaine: ${raakaAineLista}"
                       th:value="${raakaaine.nimi}"
                       th:text="${raakaaine.nimi}">  
-              </option>
+                </option>
                 
-<!--              <option name="1">Appelsiini</option>
-              <option name="2">Banaani</option>
-              <option name="...">...</option>-->
             </select>
             <br/>
             Järjestys<br/>
-            <input type="text"/><br/>
+            <input type="text" name="jarjestys"/><br/>
             Määrä<br/>
-            <input type="text"/><br/>
+            <input type="text" name="maara"/><br/>
             Ohje<br/>
-            <input type="text"/><br/>
+            <input type="text" name="ohje"/><br/>
             <input type="submit" value="Lisää"/>
         </form>
 
@@ -61,6 +65,12 @@
           <li>
             <a href="..">Smoothielistaukseen</a>
           </li>
+          <li>
+            <a href="/smoothiereseptit">Smoothie-reseptit</a>
+          </li>
+              
+              
+              
         </ul>
     </body>
 </html>

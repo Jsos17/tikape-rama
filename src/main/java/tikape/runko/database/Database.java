@@ -43,7 +43,7 @@ public class Database {
         lista.add("CREATE TABLE RaakaAine (id integer PRIMARY KEY, nimi varchar(255));");
         lista.add("CREATE TABLE SmoothieRaakaAine (id integer PRIMARY KEY, "
                 + "smoothie_id integer, raaka_aine_id integer, "
-                + "jarjestys integer, maara varchar(255), ohje varchar(1000), "
+                + "jarjestys varchar(255), maara varchar(255), ohje varchar(1000), "
                 + "FOREIGN KEY (smoothie_id) REFERENCES Smoothie(id), FOREIGN KEY (raaka_aine_id) REFERENCES RaakaAine(id)");
 
         return lista;

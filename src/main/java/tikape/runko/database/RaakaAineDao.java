@@ -21,8 +21,8 @@ public class RaakaAineDao implements Dao<RaakaAine, Integer> {
 
     private Database db;
 
-    public RaakaAineDao(Database db) {
-        this.db = db;
+    public RaakaAineDao(Database database) {
+        this.db = database;
     }
 
     @Override

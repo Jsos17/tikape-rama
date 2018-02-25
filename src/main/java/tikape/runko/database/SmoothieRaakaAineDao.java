@@ -11,7 +11,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import tikape.runko.domain.Smoothie;
 import tikape.runko.domain.SmoothieRaakaAine;
 
 /**
@@ -23,7 +22,7 @@ public class SmoothieRaakaAineDao implements Dao<SmoothieRaakaAine, Integer> {
     private Database db;
 
     public SmoothieRaakaAineDao(Database database) {
-        this.db = db;
+        this.db = database;
     }
 
     @Override
@@ -42,7 +41,7 @@ public class SmoothieRaakaAineDao implements Dao<SmoothieRaakaAine, Integer> {
             Integer id = rs.getInt("id");
             Integer smoothie_id = rs.getInt("smoothie_id");
             Integer raaka_aine_id = rs.getInt("raaka_aine_id");
-            Integer jarjestys = rs.getInt("jarjestys");
+            String jarjestys = rs.getString("jarjestys");
             String maara = rs.getString("maara");
             String ohje = rs.getString("ohje");
             sra = new SmoothieRaakaAine(id, smoothie_id, raaka_aine_id, jarjestys, maara, ohje);
@@ -64,7 +63,7 @@ public class SmoothieRaakaAineDao implements Dao<SmoothieRaakaAine, Integer> {
                 Integer id = rs.getInt("id");
                 Integer smoothie_id = rs.getInt("smoothie_id");
                 Integer raaka_aine_id = rs.getInt("raaka_aine_id");
-                Integer jarjestys = rs.getInt("jarjestys");
+                String jarjestys = rs.getString("jarjestys");
                 String maara = rs.getString("maara");
                 String ohje = rs.getString("ohje");
                 
@@ -80,7 +79,7 @@ public class SmoothieRaakaAineDao implements Dao<SmoothieRaakaAine, Integer> {
     @Override
     public void delete(Integer key) throws SQLException {
         try (Connection conn = this.db.getConnection(); 
-                PreparedStatement stmt = conn.prepareStatement("DELETE * FROM SmoothieRaakaAine WHERE id = ?")) {
+                PreparedStatement stmt = conn.prepareStatement("DELETE FROM SmoothieRaakaAine WHERE id = ?")) {
             
             stmt.setInt(1, key);
             stmt.executeUpdate();
@@ -95,7 +94,7 @@ public class SmoothieRaakaAineDao implements Dao<SmoothieRaakaAine, Integer> {
             
             stmt.setInt(1, sra.getSmoothieId());
             stmt.setInt(2, sra.getRaaka_aineId());
-            stmt.setInt(3, sra.getJarjestys());
+            stmt.setString(3, sra.getJarjestys());
             stmt.setString(4, sra.getMaara());
             stmt.setString(5, sra.getOhje());
             

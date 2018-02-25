@@ -20,8 +20,8 @@ import tikape.runko.domain.Smoothie;
 public class SmoothieDao implements Dao<Smoothie, Integer> {
     private Database db;
     
-    public SmoothieDao(Database db) {
-        this.db = db;
+    public SmoothieDao(Database database) {
+        this.db = database;
     }
 
     @Override
@@ -70,7 +70,7 @@ public class SmoothieDao implements Dao<Smoothie, Integer> {
     @Override
     public void delete(Integer key) throws SQLException {
         try (Connection conn = this.db.getConnection(); 
-                PreparedStatement stmt = conn.prepareStatement("DELETE * FROM Smoothie WHERE id = ?")) {
+                PreparedStatement stmt = conn.prepareStatement("DELETE FROM Smoothie WHERE id = ?")) {
             
             stmt.setInt(1, key);
             stmt.executeUpdate();            
