@@ -11,6 +11,7 @@
         
         <ul>
             <li th:each="smoothieRaakaAine : ${smoothieRaakaAineet}">
+                <span th:text="${smoothieRaakaAine.smoothieId}"></span>
                 <span th:text="${smoothieRaakaAine.jarjestys}"></span>
                 <span th:text="${smoothieRaakaAine.maara}"></span>
                 <span th:text="${smoothieRaakaAine.ohje}"></span>

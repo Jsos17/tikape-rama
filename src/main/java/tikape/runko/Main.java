@@ -90,16 +90,20 @@ public class Main {
             List<SmoothieRaakaAine> srat = sraDao.findAll();
             
             List<SmoothieRaakaAine> matchit = new ArrayList<>();
+            List<Smoothie> smoothieMatchit = new ArrayList<>();
+            
             for (int i = 0; i < smoothiet.size(); i++) {
                 for (int j = 0; j < srat.size(); j++) {
                     
                     if (smoothiet.get(i).getId().equals(srat.get(j).getSmoothieId())) {
                         matchit.add(srat.get(j));
+                        smoothieMatchit.add(smoothiet.get(i));
                     }
                 }
             }
             
             map.put("smoothieRaakaAineet", matchit);
+            map.put("smoothiet", smoothieMatchit);
             
             return new ModelAndView(map, "smoothiereseptit");
         }, new ThymeleafTemplateEngine());
