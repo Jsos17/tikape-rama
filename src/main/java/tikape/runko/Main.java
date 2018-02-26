@@ -138,9 +138,9 @@ public class Main {
         //POST pyynnön käsittely (smoothie reseptin lisääminen) reseptinlisays sivustolla
         Spark.post("/reseptinlisays", (req, res) -> {
             String smoothienNimi = req.queryParams("smoothie");
-               //System.out.println(smoothienNimi);
+               System.out.println(smoothienNimi);
             String raakaAine = req.queryParams("raakaaine");
-            //System.out.println(raakaAine);
+            System.out.println(raakaAine);
             String jarjestys = req.queryParams("jarjestys");
             String maara = req.queryParams("maara");
             String ohje = req.queryParams("ohje");

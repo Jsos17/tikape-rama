@@ -90,7 +90,7 @@ public class SmoothieRaakaAineDao implements Dao<SmoothieRaakaAine, Integer> {
     public SmoothieRaakaAine save(SmoothieRaakaAine sra) throws SQLException {
 //        SmoothieRaakaAine smra = new SmoothieRaakaAine();
         try (Connection conn = this.db.getConnection(); 
-                PreparedStatement stmt = conn.prepareStatement("INSERT INTO SmoothieRaakAine (smoothie_id, raaka_aine_ id, jarjestys, maara, ohje) VALUES (?, ?, ?, ?, ?)")) {
+            PreparedStatement stmt = conn.prepareStatement("INSERT INTO SmoothieRaakaAine (smoothie_id, raaka_aine_id, jarjestys, maara, ohje) VALUES (?, ?, ?, ?, ?)")) {
             
             stmt.setInt(1, sra.getSmoothieId());
             stmt.setInt(2, sra.getRaaka_aineId());
@@ -100,7 +100,9 @@ public class SmoothieRaakaAineDao implements Dao<SmoothieRaakaAine, Integer> {
             
             stmt.executeUpdate();
             
-            PreparedStatement stmt2 = conn.prepareStatement("SELECT * FROM SmoothieRaakaAine WHERE id = ?"); 
+            PreparedStatement stmt2 = conn.prepareStatement("SELECT * FROM SmoothieRaakaAine WHERE smoothie_id = ? AND raaka_aine_id = ?");
+            stmt2.setInt(1, sra.getSmoothieId());
+            stmt2.setInt(2, sra.getRaaka_aineId());
             ResultSet rs = stmt2.executeQuery();
             
             sra.setId(rs.getInt("id"));
@@ -113,7 +115,10 @@ public class SmoothieRaakaAineDao implements Dao<SmoothieRaakaAine, Integer> {
     public SmoothieRaakaAine saveOrUpdate(SmoothieRaakaAine smra) throws SQLException {
         
         try (Connection conn = this.db.getConnection();
-            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM SmoothieRaakaAine WHERE id = ?")) {
+            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM SmoothieRaakaAine WHERE smoothie_id = ? AND raaka_aine_id = ?")) {
+            
+            stmt.setInt(1, smra.getSmoothieId());
+            stmt.setInt(2, smra.getRaaka_aineId());
             
             ResultSet rs = stmt.executeQuery();
             
