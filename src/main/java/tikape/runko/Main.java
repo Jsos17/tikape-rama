@@ -76,6 +76,14 @@ public class Main {
 
             return new ModelAndView(map, "smoothiet");
         }, new ThymeleafTemplateEngine());
+        
+        Spark.get("/reseptinlisays", (req, res) -> {
+            HashMap map = new HashMap<>();
+            map.put("smoothiet", smoothieDao.findAll());
+            map.put("raakaAineLista", raDao.findAll());
+
+            return new ModelAndView(map, "reseptinlisays");
+        }, new ThymeleafTemplateEngine());
 
         Spark.get("/raaka-aineet", (req, res) -> {
             HashMap map = new HashMap<>();
@@ -83,6 +91,8 @@ public class Main {
 
             return new ModelAndView(map, "raakaaine");
         }, new ThymeleafTemplateEngine());
+        
+        
         
         Spark.get("/smoothiereseptit", (req, res) -> {
             HashMap map = new HashMap<>();
@@ -124,6 +134,38 @@ public class Main {
             res.redirect("/raaka-aineet");
             return "";
         });
+        
+        //POST pyynnön käsittely (smoothie reseptin lisääminen) reseptinlisays sivustolla
+        Spark.post("/reseptinlisays", (req, res) -> {
+            String smoothienNimi = req.queryParams("smoothie");
+               //System.out.println(smoothienNimi);
+            String raakaAine = req.queryParams("raakaaine");
+            //System.out.println(raakaAine);
+            String jarjestys = req.queryParams("jarjestys");
+            String maara = req.queryParams("maara");
+            String ohje = req.queryParams("ohje");
+//            
+            List <Smoothie> smoothiet = new ArrayList <>(); 
+                    smoothiet = smoothieDao.findAll();
+            int smoothieId = smoothiet.stream().filter(s -> s.getNimi().equals(smoothienNimi)).findFirst().get().getId();
+            
+            List <RaakaAine> raakaAineet = new ArrayList<>();
+            raakaAineet = raDao.findAll();
+            int raId = raakaAineet.stream().filter(s -> s.getNimi().equals(raakaAine)).findFirst().get().getId();
+
+                SmoothieRaakaAine uusi = new SmoothieRaakaAine();
+                uusi.setJarjestys(jarjestys);
+                uusi.setMaara(maara);
+                uusi.setOhje(ohje);
+                uusi.setRaaka_aine_id(raId);
+                uusi.setSmoothie_id(smoothieId);
+
+               sraDao.saveOrUpdate(uusi);
+//            
+            
+            res.redirect("/reseptinlisays");
+            return "";
+        });
 
         //POST pyynnön käsittely (smoothien lisääminen) smoothiet sivustolla
         Spark.post("/smoothiet", (req, res) -> {
@@ -141,6 +183,8 @@ public class Main {
             res.redirect("/smoothiet");
             return "";
         });
+        
+        
 
         Spark.post("/raaka-aineet/:id/delete", (req, res) -> {
 
@@ -149,6 +193,7 @@ public class Main {
             res.redirect("/raaka-aineet");
             return "";
         });
+        
         
         
         // ongelma saada dropdown-valikon parametrit ulos 
