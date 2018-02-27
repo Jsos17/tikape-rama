@@ -91,7 +91,6 @@ public class SmoothieDao implements Dao<Smoothie, Integer> {
             
             ResultSet rs = stmt_2.executeQuery();
             smoothie.setId(rs.getInt("id"));
-//            smoothie.setNimi(rs.getString("nimi"));
         }
         
         return smoothie;
@@ -113,5 +112,4 @@ public class SmoothieDao implements Dao<Smoothie, Integer> {
                
         return smoothie;
     }
-    
 }

@@ -8,7 +8,7 @@
 
     <body>
         <h2>Smoothiet</h2>
-        <p>Klikkaa linkkiä päästäksesi katsomaan smoothien reseptiä</p>
+        <p>Klikkaa linkkiä Smoothie-reseptit päästäksesi katsomaan smoothieiden reseptejä</p>
         <p>Jos smoothieita ei vielä ole lisätty tai haluat luoda uuden, niin mene "Lisää uusi" kohtaan</p>
         <p>Luo smoothien resepti kohdassa voit luoda reseptin olemassaolevalle smoothielle</p>
         <p>Tarkastele ja lisää raaka-aineita kohdassa voit lisätä ja poistaa käytettävissä olevia raaka-aineita</p>
@@ -16,13 +16,11 @@
         <ul>
 
             <li th:each="smoothie : ${smoothiet}">
-                <a href="/smoothiereseptit">
+                <!--<a href="/smoothiereseptit">-->
                     <span th:text="${smoothie.nimi}"></span>
-                </a>
+                <!--</a>-->
             </li>
         </ul>
-
-
 
         <h4>Lisää uusi</h4>
 

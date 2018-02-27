@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import spark.ModelAndView;
 import spark.Spark;
-import static spark.Spark.*;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
 import tikape.runko.database.Database;
 import tikape.runko.database.RaakaAineDao;
@@ -22,33 +21,6 @@ import tikape.runko.domain.SmoothieRaakaAineTulostusApu;
 
 public class Main {
 
-//    public static void main(String[] args) throws Exception {
-//        Database database = new Database("jdbc:sqlite:opiskelijat.db");
-//        database.init();
-//
-//        OpiskelijaDao opiskelijaDao = new OpiskelijaDao(database);
-//
-//        get("/", (req, res) -> {
-//            HashMap map = new HashMap<>();
-//            map.put("viesti", "tervehdys");
-//
-//            return new ModelAndView(map, "index");
-//        }, new ThymeleafTemplateEngine());
-//
-//        get("/opiskelijat", (req, res) -> {
-//            HashMap map = new HashMap<>();
-//            map.put("opiskelijat", opiskelijaDao.findAll());
-//
-//            return new ModelAndView(map, "opiskelijat");
-//        }, new ThymeleafTemplateEngine());
-//
-//        get("/opiskelijat/:id", (req, res) -> {
-//            HashMap map = new HashMap<>();
-//            map.put("opiskelija", opiskelijaDao.findOne(Integer.parseInt(req.params("id"))));
-//
-//            return new ModelAndView(map, "opiskelija");
-//        }, new ThymeleafTemplateEngine());
-//    }
     public static void main(String[] args) throws Exception {
         
 //        if (System.getenv("PORT") != null) {
@@ -73,7 +45,7 @@ public class Main {
         Spark.get("/smoothiet", (req, res) -> {
             HashMap map = new HashMap<>();
             map.put("smoothiet", smoothieDao.findAll());
-            map.put("raakaAineLista", raDao.findAll());
+//            map.put("raakaAineLista", raDao.findAll());
 
             return new ModelAndView(map, "smoothiet");
         }, new ThymeleafTemplateEngine());
@@ -91,8 +63,7 @@ public class Main {
             map.put("raakaAineLista", raDao.findAll());
 
             return new ModelAndView(map, "raakaaine");
-        }, new ThymeleafTemplateEngine());
-        
+        }, new ThymeleafTemplateEngine());        
         
         Spark.get("/smoothiereseptit", (req, res) -> {
             HashMap map = new HashMap<>();
@@ -134,7 +105,7 @@ public class Main {
             return new ModelAndView(map, "tilastokyselyt");
             
         }, new ThymeleafTemplateEngine());
-        
+
         
         Spark.post("/tilastokyselyt", (req, res) -> {
             String raakaAine = req.queryParams("raakaaine");
@@ -147,9 +118,8 @@ public class Main {
             res.redirect("/tilastokyselyt");
             return "";      
         });
-        //POST pyynnön käsittely (raaka-aineen lisääminen) raaka-aineet sivustolla
         
-        
+        //POST pyynnön käsittely (raaka-aineen lisääminen) raaka-aineet sivustolla      
         Spark.post("/raaka-aineet", (req, res) -> {
             String aineNimi = req.queryParams("aine");
             
