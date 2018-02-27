@@ -123,27 +123,33 @@ public class Main {
             return new ModelAndView(map, "smoothiereseptit");
         }, new ThymeleafTemplateEngine());
         
-        Spark.post("/tilastokyselyt", (req, res) -> {
+        List <Integer> maarat = new ArrayList <>();
+        
+        Spark.get("/tilastokyselyt", (req, res) -> {
             HashMap map = new HashMap<>();
-            int maara = tilastokyselyt.monessakoAnnoksessaEsiintyyRaakaAine(req.queryParams("raakaaine"));
+            map.put("raakaAineLista", raDao.findAll());
+            map.put("maarat", maarat);
+            return new ModelAndView(map, "tilastokyselyt");
             
-            map.put("maara", maara);
-
-            return new ModelAndView(map, "/tilastokyselyt");
         }, new ThymeleafTemplateEngine());
-
+        
+        
+        Spark.post("/tilastokyselyt", (req, res) -> {
+            String raakaAine = req.queryParams("raakaaine");
+            
+            maarat.add(tilastokyselyt.monessakoAnnoksessaEsiintyyRaakaAine(raakaAine));
+            res.redirect("/tilastokyselyt");
+            return "";      
+        });
         //POST pyynnön käsittely (raaka-aineen lisääminen) raaka-aineet sivustolla
+        
+        
         Spark.post("/raaka-aineet", (req, res) -> {
             String aineNimi = req.queryParams("aine");
             
-            if (!aineNimi.equals("")) {
-                RaakaAine ra = new RaakaAine();
-                ra.setNimi(aineNimi);
-
-                raDao.saveOrUpdate(ra);
-            }
-            
+           
             res.redirect("/raaka-aineet");
+            
             return "";
         });
         

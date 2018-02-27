@@ -23,18 +23,18 @@ public class TilastoKyselyt {
     
     public int monessakoAnnoksessaEsiintyyRaakaAine(String raaka_aine_nimi) throws SQLException {
         
-        int monessa = 0;
+//        int monessa = 0;
         
         try (Connection conn = this.db.getConnection(); 
                 PreparedStatement stmt = conn.prepareStatement("SELECT COUNT (DISTINCT Smoothie.nimi) FROM Smoothie, SmoothieRaakaAine, RaakaAine " 
-                        + "WHERE RaakaAine.nimi = ? AND SmoothieRaakaAine.raaka_aine_id = RaakaAine.id AND SmoothieRaakaAine.smoothie_id = Smoothie.id;"))  {
+                        + "WHERE RaakaAine.nimi = ? AND SmoothieRaakaAine.raaka_aine_id = RaakaAine.id AND SmoothieRaakaAine.smoothie_id = Smoothie.id"))  {
             stmt.setString(1, raaka_aine_nimi);
             
             ResultSet rs =  stmt.executeQuery();
             
-            if (!rs.next()) {
-                monessa = rs.getInt(1);
-            }    
+//            if (!rs.next()) {
+                int monessa = rs.getInt(1);
+//            }    
             
             return monessa;
         }

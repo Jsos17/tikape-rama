@@ -9,21 +9,26 @@
     <body>
         <h2> Tilastot</h2>
         
+        <ul>
+        <li th:each="kpl : ${maarat}">
+            <span th:text="${kpl}"></span>      
+        </li>
+         </ul>
+        
         <form method="POST" action="">
         <br/>
         Valitse raaka-aine<br/>
-        <select name=""raakaaine">
+        <select name="raakaaine">
             <option th:each="raakaaine: ${raakaAineLista}"
                     th:value="${raakaaine.nimi}"
                     th:text="${raakaaine.nimi}">          
             </option>
         </select>
         <br/>
-        <input type="submit" value="Tilasto"/>
+        <input type="submit" value="Tilasto"/>       
         </form>
         
-        <span th:value="${maara}"
-              </span>
+        
         
         
     </body>
