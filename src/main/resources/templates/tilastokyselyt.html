@@ -9,8 +9,13 @@
     <body>
         <h2> Tilastot</h2>
         
-        
-       
+        <p>Valitsit raaka-aineen:</p>
+        <ul>
+        <li th:each="kpl : ${aineet}">
+            <span th:text="${kpl}" ></span>      
+        </li>
+         </ul>
+        <p>Raaka-ainetta käytetään eri smoothiessa:</p>
         <ul>
         <li th:each="kpl : ${maarat}">
             <span th:text="${kpl}" ></span>      
