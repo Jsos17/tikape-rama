@@ -7,8 +7,24 @@
     </head>
     
     <body>
+        <h2> Tilastot</h2>
         
-      
+        <form method="POST" action="">
+        <br/>
+        Valitse raaka-aine<br/>
+        <select name=""raakaaine">
+            <option th:each="raakaaine: ${raakaAineLista}"
+                    th:value="${raakaaine.nimi}"
+                    th:text="${raakaaine.nimi}">          
+            </option>
+        </select>
+        <br/>
+        <input type="submit" value="Tilasto"/>
+        </form>
+        
+        <span th:value="${maara}"
+              </span>
+        
         
     </body>
 </html>
