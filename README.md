@@ -1,4 +1,4 @@
-# tikape-runko
+# Smoothie-database
 
-Tietokantojen perusteet -kurssilla tehtävän web-sovelluksen pohja.
+Sovellus sisältää smoothieita
 
