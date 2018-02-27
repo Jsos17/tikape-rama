@@ -154,11 +154,11 @@ public class Main {
             String aineNimi = req.queryParams("aine");
             
             if (!aineNimi.equals("")) {
-                int RaakaAine;
                 RaakaAine ra = new RaakaAine();
                 ra.setNimi(aineNimi);
+
                 raDao.saveOrUpdate(ra);
-             }
+            }
            
             res.redirect("/raaka-aineet");
             
