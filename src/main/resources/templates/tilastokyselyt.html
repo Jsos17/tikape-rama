@@ -5,39 +5,53 @@
         <title>Raaka-aineiden käyttö</title>
         <meta charset="utf-8" />
     </head>
-    
+
     <body>
         <h2> Tilastot</h2>
-        
+
         <p>Valitsit raaka-aineen:</p>
         <ul>
-        <li th:each="kpl : ${aineet}">
-            <span th:text="${kpl}" ></span>      
-        </li>
-         </ul>
+            <li th:each="kpl : ${aineet}">
+                <span th:text="${kpl}" ></span>      
+            </li>
+        </ul>
         <p>Raaka-ainetta käytetään eri smoothiessa:</p>
         <ul>
-        <li th:each="kpl : ${maarat}">
-            <span th:text="${kpl}" ></span>      
-        </li>
-         </ul>
-        
-        
+            <li th:each="kpl : ${maarat}">
+                <span th:text="${kpl}" ></span>      
+            </li>
+        </ul>
+
+
         <form method="POST" action="">
-        <br/>
-        Valitse raaka-aine<br/>
-        <select name="raakaaine">
-            <option th:each="raakaaine: ${raakaAineLista}"
-                    th:value="${raakaaine.nimi}"
-                    th:text="${raakaaine.nimi}">          
-            </option>
-        </select>
-        <br/>
-        <input type="submit" value="Tilasto"/>       
+            <br/>
+            Valitse raaka-aine<br/>
+            <select name="raakaaine">
+                <option th:each="raakaaine: ${raakaAineLista}"
+                        th:value="${raakaaine.nimi}"
+                        th:text="${raakaaine.nimi}">          
+                </option>
+            </select>
+            <br/>
+            <input type="submit" value="Tilasto"/>       
         </form>
-        
-        
-        
-        
+
+        <ul>
+            <li>
+                <a href="..">Smoothielistaukseen</a>
+            </li>
+            <li>
+                <a href="smoothiet">Luo uusi smoothie</a>
+            </li>
+            <li>
+                <a href="raaka-aineet">Tarkastele ja lisää raaka-aineita</a>
+            </li>
+            <li>
+                <a href="reseptinlisays">Lisää uusi resepti</a>
+            </li>
+            <li>
+                <a href="/smoothiereseptit">Smoothie-reseptit</a>
+            </li>
+        </ul>
     </body>
 </html>
