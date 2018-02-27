@@ -125,10 +125,12 @@ public class Main {
         
         List <Integer> maarat = new ArrayList <>();
         
+        
         Spark.get("/tilastokyselyt", (req, res) -> {
             HashMap map = new HashMap<>();
             map.put("raakaAineLista", raDao.findAll());
             map.put("maarat", maarat);
+            
             return new ModelAndView(map, "tilastokyselyt");
             
         }, new ThymeleafTemplateEngine());
@@ -136,8 +138,11 @@ public class Main {
         
         Spark.post("/tilastokyselyt", (req, res) -> {
             String raakaAine = req.queryParams("raakaaine");
-            
+            if (!maarat.isEmpty()){
+                maarat.clear();
+            }
             maarat.add(tilastokyselyt.monessakoAnnoksessaEsiintyyRaakaAine(raakaAine));
+            
             res.redirect("/tilastokyselyt");
             return "";      
         });
@@ -147,6 +152,12 @@ public class Main {
         Spark.post("/raaka-aineet", (req, res) -> {
             String aineNimi = req.queryParams("aine");
             
+            if (!aineNimi.equals("")) {
+                int RaakaAine;
+                RaakaAine ra = new RaakaAine();
+                ra.setNimi(aineNimi);
+                raDao.saveOrUpdate(ra);
+             }
            
             res.redirect("/raaka-aineet");
             

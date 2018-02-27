@@ -9,11 +9,14 @@
     <body>
         <h2> Tilastot</h2>
         
+        
+       
         <ul>
         <li th:each="kpl : ${maarat}">
-            <span th:text="${kpl}"></span>      
+            <span th:text="${kpl}" ></span>      
         </li>
          </ul>
+        
         
         <form method="POST" action="">
         <br/>
