@@ -85,10 +85,18 @@ public class SmoothieRaakaAineDao implements Dao<SmoothieRaakaAine, Integer> {
             stmt.executeUpdate();
         }
     }
+    
+    public void deleteBasedOnRaakaAineId(Integer raaka_aine_key) throws SQLException {
+        try (Connection conn = this.db.getConnection(); 
+                PreparedStatement stmt = conn.prepareStatement("DELETE FROM SmoothieRaakaAine WHERE raaka_aine_id = ?")) {
+            
+            stmt.setInt(1, raaka_aine_key);
+            stmt.executeUpdate();
+        }
+    }
 
     @Override
     public SmoothieRaakaAine save(SmoothieRaakaAine sra) throws SQLException {
-//        SmoothieRaakaAine smra = new SmoothieRaakaAine();
         try (Connection conn = this.db.getConnection(); 
             PreparedStatement stmt = conn.prepareStatement("INSERT INTO SmoothieRaakaAine (smoothie_id, raaka_aine_id, jarjestys, maara, ohje) VALUES (?, ?, ?, ?, ?)")) {
             

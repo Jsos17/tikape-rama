@@ -179,6 +179,7 @@ public class Main {
 
         Spark.post("/raaka-aineet/:id/delete", (req, res) -> {
             raDao.delete(Integer.parseInt(req.params(":id")));
+            sraDao.deleteBasedOnRaakaAineId(Integer.parseInt(req.params(":id")));
 
             res.redirect("/raaka-aineet");
             return "";

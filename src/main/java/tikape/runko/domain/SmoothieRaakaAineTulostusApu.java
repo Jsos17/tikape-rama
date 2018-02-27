@@ -98,8 +98,8 @@ public class SmoothieRaakaAineTulostusApu implements Comparable<SmoothieRaakaAin
         
         if (tulos == 0) {
             return this.getJarjestys().compareTo(smraTulApu.getJarjestys());
+        } else {
+            return tulos;
         }
-                    
-        return tulos;
     }
 }
