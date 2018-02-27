@@ -14,6 +14,7 @@ import tikape.runko.database.Database;
 import tikape.runko.database.RaakaAineDao;
 import tikape.runko.database.SmoothieDao;
 import tikape.runko.database.SmoothieRaakaAineDao;
+import tikape.runko.database.TilastoKyselyt;
 import tikape.runko.domain.RaakaAine;
 import tikape.runko.domain.Smoothie;
 import tikape.runko.domain.SmoothieRaakaAine;
@@ -60,6 +61,7 @@ public class Main {
         SmoothieDao smoothieDao = new SmoothieDao(database);
         RaakaAineDao raDao = new RaakaAineDao(database);
         SmoothieRaakaAineDao sraDao = new SmoothieRaakaAineDao(database);
+        TilastoKyselyt tilastokyselyt = new TilastoKyselyt(database); 
 
         Spark.get("/", (req, res) -> {
             HashMap map = new HashMap<>();
@@ -119,6 +121,15 @@ public class Main {
             map.put("smoothieRaakaAineet", smraTulAvut);
             
             return new ModelAndView(map, "smoothiereseptit");
+        }, new ThymeleafTemplateEngine());
+        
+        Spark.post("/tilastokyselyt", (req, res) -> {
+            HashMap map = new HashMap<>();
+            int maara = tilastokyselyt.monessakoAnnoksessaEsiintyyRaakaAine(req.queryParams("raakaaine"));
+            
+            map.put("maara", maara);
+
+            return new ModelAndView(map, "/tilastokyselyt");
         }, new ThymeleafTemplateEngine());
 
         //POST pyynnön käsittely (raaka-aineen lisääminen) raaka-aineet sivustolla
