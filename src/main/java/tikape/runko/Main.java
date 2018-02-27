@@ -3,6 +3,7 @@ package tikape.runko;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import spark.ModelAndView;
@@ -16,6 +17,7 @@ import tikape.runko.database.SmoothieRaakaAineDao;
 import tikape.runko.domain.RaakaAine;
 import tikape.runko.domain.Smoothie;
 import tikape.runko.domain.SmoothieRaakaAine;
+import tikape.runko.domain.SmoothieRaakaAineTulostusApu;
 
 public class Main {
 
@@ -59,9 +61,6 @@ public class Main {
         RaakaAineDao raDao = new RaakaAineDao(database);
         SmoothieRaakaAineDao sraDao = new SmoothieRaakaAineDao(database);
 
-//        ArrayList <Smoothie> smoothiet = new ArrayList<>();
-//        ArrayList<RaakaAine> raakaAineet = new ArrayList<>();
-//        ArrayList <SmoothieRaakaAine> SmoothieRaakaAineet = new ArrayList<>();
         Spark.get("/", (req, res) -> {
             HashMap map = new HashMap<>();
             map.put("smoothiet", smoothieDao.findAll());
@@ -93,27 +92,31 @@ public class Main {
         }, new ThymeleafTemplateEngine());
         
         
-        
         Spark.get("/smoothiereseptit", (req, res) -> {
             HashMap map = new HashMap<>();
-            List<Smoothie> smoothiet = smoothieDao.findAll();
             List<SmoothieRaakaAine> srat = sraDao.findAll();
             
-            List<SmoothieRaakaAine> matchit = new ArrayList<>();
-            List<Smoothie> smoothieMatchit = new ArrayList<>();
+            HashMap<Integer, String> smoothieNimet = new HashMap<>();
+            HashMap<Integer, String> raaka_aineNimet = new HashMap<>();
+            smoothieDao.findAll().stream().forEach(sm -> smoothieNimet.put(sm.getId(), sm.getNimi()));
+            raDao.findAll().stream().forEach(ra -> raaka_aineNimet.put(ra.getId(), ra.getNimi()));
             
-            for (int i = 0; i < smoothiet.size(); i++) {
-                for (int j = 0; j < srat.size(); j++) {
-                    
-                    if (smoothiet.get(i).getId().equals(srat.get(j).getSmoothieId())) {
-                        matchit.add(srat.get(j));
-                        smoothieMatchit.add(smoothiet.get(i));
-                    }
-                }
+            List<SmoothieRaakaAineTulostusApu> smraTulAvut = new ArrayList<>();
+            for (int i = 0; i < srat.size(); i++) {
+               SmoothieRaakaAine sra = srat.get(i);
+               
+               String smoothieNimi = smoothieNimet.get(sra.getSmoothieId());
+               String raaka_aineNimi = raaka_aineNimet.get(sra.getRaaka_aineId());
+               String jarjestys = sra.getJarjestys();
+               String maara = sra.getMaara();
+               String ohje = sra.getOhje();
+               
+               smraTulAvut.add(new SmoothieRaakaAineTulostusApu(smoothieNimi, raaka_aineNimi, jarjestys, maara, ohje));
             }
             
-            map.put("smoothieRaakaAineet", matchit);
-            map.put("smoothiet", smoothieMatchit);
+            Collections.sort(smraTulAvut);
+            
+            map.put("smoothieRaakaAineet", smraTulAvut);
             
             return new ModelAndView(map, "smoothiereseptit");
         }, new ThymeleafTemplateEngine());
@@ -126,8 +129,6 @@ public class Main {
                 RaakaAine ra = new RaakaAine();
                 ra.setNimi(aineNimi);
 
-                //            RaakaAine ra = new RaakaAine(raakaAineet.size() + 1, aineNimi);
-                //            raakaAineet.add(ra);
                 raDao.saveOrUpdate(ra);
             }
             
@@ -138,20 +139,14 @@ public class Main {
         //POST pyynnön käsittely (smoothie reseptin lisääminen) reseptinlisays sivustolla
         Spark.post("/reseptinlisays", (req, res) -> {
             String smoothienNimi = req.queryParams("smoothie");
-               System.out.println(smoothienNimi);
             String raakaAine = req.queryParams("raakaaine");
-            System.out.println(raakaAine);
             String jarjestys = req.queryParams("jarjestys");
             String maara = req.queryParams("maara");
             String ohje = req.queryParams("ohje");
-//            
-            List <Smoothie> smoothiet = new ArrayList <>(); 
-                    smoothiet = smoothieDao.findAll();
-            int smoothieId = smoothiet.stream().filter(s -> s.getNimi().equals(smoothienNimi)).findFirst().get().getId();
-            
-            List <RaakaAine> raakaAineet = new ArrayList<>();
-            raakaAineet = raDao.findAll();
-            int raId = raakaAineet.stream().filter(s -> s.getNimi().equals(raakaAine)).findFirst().get().getId();
+
+            if (!jarjestys.equals("") && !maara.equals("") && !ohje.equals("")) {
+                Integer smoothieId = smoothieDao.findAll().stream().filter(s -> s.getNimi().equals(smoothienNimi)).findFirst().get().getId();
+                Integer raId = raDao.findAll().stream().filter(s -> s.getNimi().equals(raakaAine)).findFirst().get().getId();
 
                 SmoothieRaakaAine uusi = new SmoothieRaakaAine();
                 uusi.setJarjestys(jarjestys);
@@ -160,8 +155,8 @@ public class Main {
                 uusi.setRaaka_aine_id(raId);
                 uusi.setSmoothie_id(smoothieId);
 
-               sraDao.saveOrUpdate(uusi);
-//            
+                sraDao.saveOrUpdate(uusi);
+            }
             
             res.redirect("/reseptinlisays");
             return "";
@@ -175,72 +170,19 @@ public class Main {
                 Smoothie s = new Smoothie();
                 s.setNimi(smoothieNimi);
 
-                //            Smoothie s = new Smoothie(smoothiet.size() + 1, smoothieNimi);
-                //            smoothiet.add(s);
                 smoothieDao.saveOrUpdate(s);
             } 
 
             res.redirect("/smoothiet");
             return "";
         });
-        
-        
 
         Spark.post("/raaka-aineet/:id/delete", (req, res) -> {
-
             raDao.delete(Integer.parseInt(req.params(":id")));
 
             res.redirect("/raaka-aineet");
             return "";
-        });
-        
-        
-        
-        // ongelma saada dropdown-valikon parametrit ulos 
-        // alla oleva ei toimi
-        Spark.post("/smoothiereseptit", (req, res) -> {
-            String smoothie_nimi = req.params("smoothie");
-            String raaka_aine_nimi = req.params("raakaaine");
-            String jarjestys = req.queryParams("jarjestys");
-            String maara = req.queryParams("maara");
-            String ohje = req.queryParams("ohje");
-            
-            if (!jarjestys.equals("") && !maara.equals("") && !ohje.equals("")) {
-               
-                List<Smoothie> smoothiet = smoothieDao.findAll();
-                List<RaakaAine> rat = raDao.findAll();
-
-                Integer smoothie_id = -1;
-                Integer raaka_aine_id = -1;
-
-                for (int i = 0; i < smoothiet.size(); i++) {
-                    if (smoothiet.get(i).getNimi().equals(smoothie_nimi)) {
-                        smoothie_id = smoothiet.get(i).getId();
-                        break;
-                    }
-                }
-                for (int i = 0; i < rat.size(); i++) {
-                    if (rat.get(i).getNimi().equals(raaka_aine_nimi)) {
-                        raaka_aine_id = rat.get(i).getId();
-                        break;
-                    }
-                }
-
-                SmoothieRaakaAine sra = new SmoothieRaakaAine();
-                sra.setSmoothie_id(smoothie_id);
-                sra.setRaaka_aine_id(raaka_aine_id);
-                sra.setJarjestys(jarjestys);
-                sra.setMaara(maara);
-                sra.setOhje(ohje);
-                
-                sraDao.saveOrUpdate(sra);
-            }
-            
-            res.redirect("smoothiet");
-            return "";
-        });
-        
-        
+        });      
     }
     
 //    public static Connection getConnection() throws Exception {

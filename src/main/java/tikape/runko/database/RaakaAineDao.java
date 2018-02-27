@@ -41,7 +41,6 @@ public class RaakaAineDao implements Dao<RaakaAine, Integer> {
             String nimi = rs.getString("nimi");
             ra = new RaakaAine(id, nimi);
             rs.close();
-            stmt.close();
         }
 
         return ra;
@@ -63,9 +62,8 @@ public class RaakaAineDao implements Dao<RaakaAine, Integer> {
             }
 
             rs.close();
-//            stmt.close();
-//            conn.close();
         }
+        
         return r_aineet;
     }
 
@@ -92,7 +90,6 @@ public class RaakaAineDao implements Dao<RaakaAine, Integer> {
             
             ResultSet rs = stmt_2.executeQuery();
             raaka_aine.setId(rs.getInt("id"));
-//            raaka_aine.setNimi(rs.getString("nimi"));
         }
         
         return raaka_aine;
@@ -114,5 +111,4 @@ public class RaakaAineDao implements Dao<RaakaAine, Integer> {
 
         return raaka_aine;
     }
-
 }

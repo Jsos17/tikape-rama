@@ -113,20 +113,8 @@ public class SmoothieRaakaAineDao implements Dao<SmoothieRaakaAine, Integer> {
 
     @Override
     public SmoothieRaakaAine saveOrUpdate(SmoothieRaakaAine smra) throws SQLException {
-        
-        try (Connection conn = this.db.getConnection();
-            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM SmoothieRaakaAine WHERE smoothie_id = ? AND raaka_aine_id = ?")) {
-            
-            stmt.setInt(1, smra.getSmoothieId());
-            stmt.setInt(2, smra.getRaaka_aineId());
-            
-            ResultSet rs = stmt.executeQuery();
-            
-            if (!rs.next()) {
-                smra = save(smra);
-            }
-        }
-        
+
+        smra = save(smra);
         return smra;
     }
 

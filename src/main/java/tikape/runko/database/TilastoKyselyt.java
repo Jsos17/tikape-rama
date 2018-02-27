@@ -26,8 +26,8 @@ public class TilastoKyselyt {
         int monessa = 0;
         
         try (Connection conn = this.db.getConnection(); 
-                PreparedStatement stmt = conn.prepareStatement("SELECT COUNT(*) FROM SmoothieRaakaAine, Smoothie, RaakaAine "
-                        + "WHERE SmoothieRaakaAine.smoothie_id = Smoothie.id AND SmoothieRaakaAine.raaka_aine_id = RaakaAine.id AND RaakaAine.nimi = ?")) {
+                PreparedStatement stmt = conn.prepareStatement("SELECT COUNT(*) FROM SmoothieRaakaAine, RaakaAine "
+                            + "WHERE SmoothieRaakaAine.raaka_aine_id = RaakaAine.id AND RaakaAine.nimi = ?")) {
             stmt.setString(1, raaka_aine_nimi);
             
             ResultSet rs =  stmt.executeQuery();
