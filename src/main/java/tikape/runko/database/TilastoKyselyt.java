@@ -28,7 +28,7 @@ public class TilastoKyselyt {
         try {
             Connection conn = getConnection();
             PreparedStatement stmt = conn.prepareStatement("SELECT COUNT (DISTINCT Smoothie.nimi) FROM Smoothie, SmoothieRaakaAine, RaakaAine "
-                    + "WHERE RaakaAine.nimi = ? AND SmoothieRaakaAine.raaka_aine_id = RaakaAine.id AND SmoothieRaakaAine.smoothie_id = Smoothie.id");
+                    + "WHERE SmoothieRaakaAine.raaka_aine_id = RaakaAine.id AND SmoothieRaakaAine.smoothie_id = Smoothie.id AND RaakaAine.nimi = ?");
 
                 stmt.setString(1, raaka_aine_nimi);
                 
