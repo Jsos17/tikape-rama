@@ -44,6 +44,7 @@ public class SmoothieDao implements Dao<Smoothie, Integer> {
                 String nimi = rs.getString("nimi");
                 smoothie = new Smoothie(id, nimi);
                 rs.close();
+                conn.close();
                 
                 return smoothie;
             }
@@ -73,6 +74,7 @@ public class SmoothieDao implements Dao<Smoothie, Integer> {
                 }
 
                 rs.close();
+                conn.close();
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -91,6 +93,7 @@ public class SmoothieDao implements Dao<Smoothie, Integer> {
 
                 stmt.setInt(1, key);
                 stmt.executeUpdate();
+                conn.close();
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -113,6 +116,7 @@ public class SmoothieDao implements Dao<Smoothie, Integer> {
 
                 ResultSet rs = stmt_2.executeQuery();
                 smoothie.setId(rs.getInt("id"));
+                conn.close();
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -134,6 +138,7 @@ public class SmoothieDao implements Dao<Smoothie, Integer> {
                 if (!rs.next()) {
                     smoothie = save(smoothie);
                 }
+                conn.close();
             }
 
         } catch (Exception e) {

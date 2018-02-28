@@ -99,6 +99,7 @@ public class SmoothieRaakaAineDao implements Dao<SmoothieRaakaAine, Integer> {
 
             stmt.setInt(1, key);
             stmt.executeUpdate();
+            conn.close();
         }
             
         } catch (Exception e) {
@@ -114,6 +115,7 @@ public class SmoothieRaakaAineDao implements Dao<SmoothieRaakaAine, Integer> {
 
             stmt.setInt(1, raaka_aine_key);
             stmt.executeUpdate();
+            conn.close();
         }
             
         } catch (Exception e) {
@@ -142,6 +144,8 @@ public class SmoothieRaakaAineDao implements Dao<SmoothieRaakaAine, Integer> {
             ResultSet rs = stmt2.executeQuery();
 
             sra.setId(rs.getInt("id"));
+            
+            conn.close();
         }
             
             

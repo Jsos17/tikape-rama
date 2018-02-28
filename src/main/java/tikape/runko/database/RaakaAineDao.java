@@ -47,6 +47,7 @@ public class RaakaAineDao implements Dao<RaakaAine, Integer> {
                 String nimi = rs.getString("nimi");
                 ra = new RaakaAine(id, nimi);
                 rs.close();
+                conn.close();
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -73,6 +74,7 @@ public class RaakaAineDao implements Dao<RaakaAine, Integer> {
                 }
 
                 rs.close();
+                conn.close();
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -92,6 +94,8 @@ public class RaakaAineDao implements Dao<RaakaAine, Integer> {
                 stmt.setInt(1, key);
                 stmt.executeUpdate();
             }
+            
+            conn.close();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -114,6 +118,8 @@ public class RaakaAineDao implements Dao<RaakaAine, Integer> {
 
                 ResultSet rs = stmt_2.executeQuery();
                 raaka_aine.setId(rs.getInt("id"));
+                
+                conn.close();
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -136,6 +142,8 @@ public class RaakaAineDao implements Dao<RaakaAine, Integer> {
                 if (!rs.next()) {
                     raaka_aine = save(raaka_aine);
                 }
+                
+                conn.close();
             }
 
         } catch (Exception e) {
