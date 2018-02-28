@@ -9,7 +9,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import static tikape.runko.Main.getConnection;
 
 /**
@@ -24,31 +23,26 @@ public class TilastoKyselyt {
         this.db = database;
     }
 
-    public String monessakoAnnoksessaEsiintyyRaakaAine(String raaka_aine_nimi) throws SQLException {
-//        Integer monessa = -1;
-//        ArrayList<Integer> monessako = new ArrayList<>();
-        String maara = "-1";
+    public Integer monessakoAnnoksessaEsiintyyRaakaAine(String raaka_aine_nimi) throws SQLException {
+        Integer monessa = -1;
         try {
             Connection conn = getConnection();
             try (PreparedStatement stmt = conn.prepareStatement("SELECT COUNT (DISTINCT Smoothie.nimi) FROM Smoothie, SmoothieRaakaAine, RaakaAine "
                     + "WHERE RaakaAine.nimi = ? AND SmoothieRaakaAine.raaka_aine_id = RaakaAine.id AND SmoothieRaakaAine.smoothie_id = Smoothie.id")) {
 
                 stmt.setString(1, raaka_aine_nimi);
-
+                
                 ResultSet rs = stmt.executeQuery();
                 if (!rs.next()) {
-                    maara = "" + rs.getInt(1);
+                    monessa = rs.getInt(1);
                 }
                 
-                rs.close();
                 conn.close();
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
 
-        
-        return maara;
-
+        return monessa;
     }
 }
