@@ -48,6 +48,7 @@ public class SmoothieRaakaAineDao implements Dao<SmoothieRaakaAine, Integer> {
                 String ohje = rs.getString("ohje");
                 sra = new SmoothieRaakaAine(id, smoothie_id, raaka_aine_id, jarjestys, maara, ohje);
                 rs.close();
+                conn.close();
 
                 return sra;
             }
@@ -82,6 +83,7 @@ public class SmoothieRaakaAineDao implements Dao<SmoothieRaakaAine, Integer> {
                 }
 
                 rs.close();
+                conn.close();
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
