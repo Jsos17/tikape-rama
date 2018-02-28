@@ -94,7 +94,7 @@ public class Main {
             return new ModelAndView(map, "smoothiereseptit");
         }, new ThymeleafTemplateEngine());
         
-        List <Integer> maarat = new ArrayList <>();
+        List <String> maarat = new ArrayList <>();
         List <String> aineet = new ArrayList<>();
         
         Spark.get("/tilastokyselyt", (req, res) -> {

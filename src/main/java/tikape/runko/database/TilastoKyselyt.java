@@ -24,9 +24,10 @@ public class TilastoKyselyt {
         this.db = database;
     }
 
-    public Integer monessakoAnnoksessaEsiintyyRaakaAine(String raaka_aine_nimi) throws SQLException {
+    public String monessakoAnnoksessaEsiintyyRaakaAine(String raaka_aine_nimi) throws SQLException {
 //        Integer monessa = -1;
-        ArrayList<Integer> monessako = new ArrayList<>();
+//        ArrayList<Integer> monessako = new ArrayList<>();
+        String maara = "-1";
         try {
             Connection conn = getConnection();
             try (PreparedStatement stmt = conn.prepareStatement("SELECT COUNT (DISTINCT Smoothie.nimi) FROM Smoothie, SmoothieRaakaAine, RaakaAine "
@@ -36,7 +37,7 @@ public class TilastoKyselyt {
 
                 ResultSet rs = stmt.executeQuery();
 //                if (!rs.next()) {
-                monessako.add(rs.getInt(1));
+                maara = "" + rs.getInt(1);
 //                }
 
                 conn.close();
@@ -45,11 +46,8 @@ public class TilastoKyselyt {
             System.out.println(e.getMessage());
         }
 
-        if (monessako.isEmpty()) {
-            return -1;
-        } else {
-            return monessako.get(0);
-        }
+        
+        return maara;
 
     }
 }
