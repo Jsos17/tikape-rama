@@ -34,7 +34,7 @@ public class TilastoKyselyt {
                 
                 ResultSet rs = stmt.executeQuery();
                 if (!rs.next()) {
-                    monessa = rs.getInt(1);
+                    monessa = rs.getInt("count");
                 }
                 
                 conn.close();
