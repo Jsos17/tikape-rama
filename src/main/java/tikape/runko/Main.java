@@ -23,9 +23,9 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
         
-//        if (System.getenv("PORT") != null) {
-//            Spark.port(Integer.valueOf(System.getenv("PORT")));
-//        }
+        if (System.getenv("PORT") != null) {
+            Spark.port(Integer.valueOf(System.getenv("PORT")));
+        }
         
         Database database = new Database("jdbc:sqlite:smoothiet.db");
         database.init();
@@ -185,12 +185,12 @@ public class Main {
         });      
     }
     
-//    public static Connection getConnection() throws Exception {
-//        String dbUrl = System.getenv("JDBC_DATABASE_URL");
-//        if (dbUrl != null && dbUrl.length() > 0) {
-//            return DriverManager.getConnection(dbUrl);
-//        }
-//
-//        return DriverManager.getConnection("jdbc:sqlite:huonekalut.db");
-//    }
+    public static Connection getConnection() throws Exception {
+        String dbUrl = System.getenv("JDBC_DATABASE_URL");
+        if (dbUrl != null && dbUrl.length() > 0) {
+            return DriverManager.getConnection(dbUrl);
+        }
+
+        return DriverManager.getConnection("jdbc:sqlite:smoothiet.db");
+    }
 }
