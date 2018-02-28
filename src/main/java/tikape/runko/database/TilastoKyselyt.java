@@ -27,8 +27,8 @@ public class TilastoKyselyt {
         Integer monessa = -1;
         try {
             Connection conn = getConnection();
-            try (PreparedStatement stmt = conn.prepareStatement("SELECT COUNT (DISTINCT Smoothie.nimi) FROM Smoothie, SmoothieRaakaAine, RaakaAine "
-                    + "WHERE RaakaAine.nimi = ? AND SmoothieRaakaAine.raaka_aine_id = RaakaAine.id AND SmoothieRaakaAine.smoothie_id = Smoothie.id")) {
+            PreparedStatement stmt = conn.prepareStatement("SELECT COUNT (DISTINCT Smoothie.nimi) FROM Smoothie, SmoothieRaakaAine, RaakaAine "
+                    + "WHERE RaakaAine.nimi = ? AND SmoothieRaakaAine.raaka_aine_id = RaakaAine.id AND SmoothieRaakaAine.smoothie_id = Smoothie.id");
 
                 stmt.setString(1, raaka_aine_nimi);
                 
@@ -38,7 +38,7 @@ public class TilastoKyselyt {
                 }
                 
                 conn.close();
-            }
+            
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
