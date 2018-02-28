@@ -36,10 +36,11 @@ public class TilastoKyselyt {
                 stmt.setString(1, raaka_aine_nimi);
 
                 ResultSet rs = stmt.executeQuery();
-//                if (!rs.next()) {
-                maara = "" + rs.getInt(1);
-//                }
-
+                if (!rs.next()) {
+                    maara = "" + rs.getInt(1);
+                }
+                
+                rs.close();
                 conn.close();
             }
         } catch (Exception e) {
