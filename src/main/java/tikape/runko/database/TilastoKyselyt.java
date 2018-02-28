@@ -37,6 +37,7 @@ public class TilastoKyselyt {
                     monessa = rs.getInt(1);
                 }
                 
+                rs.close();
                 conn.close();
             }
         } catch (Exception e) {
