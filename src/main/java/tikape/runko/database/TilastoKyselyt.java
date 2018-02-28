@@ -33,9 +33,7 @@ public class TilastoKyselyt {
                 stmt.setString(1, raaka_aine_nimi);
                 
                 ResultSet rs = stmt.executeQuery();
-                if (!rs.next()) {
-                    monessa = rs.getInt(1);
-                }
+                monessa = rs.getInt(1);
                 
                 rs.close();
                 conn.close();
