@@ -24,7 +24,7 @@ public class TilastoKyselyt {
     }
 
     public int monessakoAnnoksessaEsiintyyRaakaAine(String raaka_aine_nimi) throws SQLException {
-        int monessa = 0;
+       
         try {
             Connection conn = getConnection();
             try (PreparedStatement stmt = conn.prepareStatement("SELECT COUNT (DISTINCT Smoothie.nimi) FROM Smoothie, SmoothieRaakaAine, RaakaAine "
@@ -33,13 +33,14 @@ public class TilastoKyselyt {
                 stmt.setString(1, raaka_aine_nimi);
 
                 ResultSet rs = stmt.executeQuery();
-                monessa = rs.getInt(1);
+                int monessa = rs.getInt(1);
                 conn.close();
+                return monessa;
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
 
-        return monessa;
+        return 0;
     }
 }
