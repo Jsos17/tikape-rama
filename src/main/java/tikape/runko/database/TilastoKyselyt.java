@@ -23,8 +23,8 @@ public class TilastoKyselyt {
         this.db = database;
     }
 
-    public int monessakoAnnoksessaEsiintyyRaakaAine(String raaka_aine_nimi) throws SQLException {
-       Integer monessa = -1;
+    public Integer monessakoAnnoksessaEsiintyyRaakaAine(String raaka_aine_nimi) throws SQLException {
+        Integer monessa = -1;
         try {
             Connection conn = getConnection();
             try (PreparedStatement stmt = conn.prepareStatement("SELECT COUNT (DISTINCT Smoothie.nimi) FROM Smoothie, SmoothieRaakaAine, RaakaAine "
