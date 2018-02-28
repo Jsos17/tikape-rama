@@ -87,38 +87,38 @@ public class SmoothieRaakaAineDao implements Dao<SmoothieRaakaAine, Integer> {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        
+
         return sm_raaka_aineet;
     }
 
     @Override
     public void delete(Integer key) throws SQLException {
-        
+
         try {
             Connection conn = getConnection();
             try (PreparedStatement stmt = conn.prepareStatement("DELETE FROM SmoothieRaakaAine WHERE id = ?")) {
 
-            stmt.setInt(1, key);
-            stmt.executeUpdate();
-            conn.close();
-        }
-            
+                stmt.setInt(1, key);
+                stmt.executeUpdate();
+                conn.close();
+            }
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        
+
     }
 
     public void deleteBasedOnRaakaAineId(Integer raaka_aine_key) throws SQLException {
         try {
             Connection conn = getConnection();
-             try (PreparedStatement stmt = conn.prepareStatement("DELETE FROM SmoothieRaakaAine WHERE raaka_aine_id = ?")) {
+            try (PreparedStatement stmt = conn.prepareStatement("DELETE FROM SmoothieRaakaAine WHERE raaka_aine_id = ?")) {
 
-            stmt.setInt(1, raaka_aine_key);
-            stmt.executeUpdate();
-            conn.close();
-        }
-            
+                stmt.setInt(1, raaka_aine_key);
+                stmt.executeUpdate();
+                conn.close();
+            }
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -126,34 +126,32 @@ public class SmoothieRaakaAineDao implements Dao<SmoothieRaakaAine, Integer> {
 
     @Override
     public SmoothieRaakaAine save(SmoothieRaakaAine sra) throws SQLException {
-        
+
         try {
             Connection conn = getConnection();
             try (PreparedStatement stmt = conn.prepareStatement("INSERT INTO SmoothieRaakaAine (smoothie_id, raaka_aine_id, jarjestys, maara, ohje) VALUES (?, ?, ?, ?, ?)")) {
 
-            stmt.setInt(1, sra.getSmoothieId());
-            stmt.setInt(2, sra.getRaaka_aineId());
-            stmt.setString(3, sra.getJarjestys());
-            stmt.setString(4, sra.getMaara());
-            stmt.setString(5, sra.getOhje());
+                stmt.setInt(1, sra.getSmoothieId());
+                stmt.setInt(2, sra.getRaaka_aineId());
+                stmt.setString(3, sra.getJarjestys());
+                stmt.setString(4, sra.getMaara());
+                stmt.setString(5, sra.getOhje());
 
-            stmt.executeUpdate();
+                stmt.executeUpdate();
 
-            PreparedStatement stmt2 = conn.prepareStatement("SELECT * FROM SmoothieRaakaAine WHERE smoothie_id = ? AND raaka_aine_id = ?");
-            stmt2.setInt(1, sra.getSmoothieId());
-            stmt2.setInt(2, sra.getRaaka_aineId());
-            ResultSet rs = stmt2.executeQuery();
+                PreparedStatement stmt2 = conn.prepareStatement("SELECT * FROM SmoothieRaakaAine WHERE smoothie_id = ? AND raaka_aine_id = ?");
+                stmt2.setInt(1, sra.getSmoothieId());
+                stmt2.setInt(2, sra.getRaaka_aineId());
+                ResultSet rs = stmt2.executeQuery();
 
-            sra.setId(rs.getInt("id"));
-            
-            conn.close();
-        }
-            
-            
+                sra.setId(rs.getInt("id"));
+
+                conn.close();
+            }
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        
 
         return sra;
     }
@@ -163,5 +161,5 @@ public class SmoothieRaakaAineDao implements Dao<SmoothieRaakaAine, Integer> {
 
         smra = save(smra);
         return smra;
-    } 
+    }
 }
