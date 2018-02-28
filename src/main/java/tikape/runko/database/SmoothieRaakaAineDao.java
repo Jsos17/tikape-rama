@@ -28,7 +28,7 @@ public class SmoothieRaakaAineDao implements Dao<SmoothieRaakaAine, Integer> {
 
     @Override
     public SmoothieRaakaAine findOne(Integer key) throws SQLException {
-        SmoothieRaakaAine sra;
+        SmoothieRaakaAine sra = null;
         try {
             Connection conn = getConnection();
             try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM SmoothieRaakaAine WHERE id = ?")) {
@@ -50,14 +50,13 @@ public class SmoothieRaakaAineDao implements Dao<SmoothieRaakaAine, Integer> {
                 rs.close();
                 conn.close();
 
-                return sra;
             }
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
 
-        return null;
+        return sra;
     }
 
     @Override
