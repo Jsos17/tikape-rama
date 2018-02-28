@@ -27,18 +27,18 @@ public class TilastoKyselyt {
         Integer monessa = -1;
         try {
             Connection conn = getConnection();
-            PreparedStatement stmt = conn.prepareStatement("SELECT COUNT (DISTINCT Smoothie.nimi) FROM Smoothie, SmoothieRaakaAine, RaakaAine "
-                    + "WHERE SmoothieRaakaAine.raaka_aine_id = RaakaAine.id AND SmoothieRaakaAine.smoothie_id = Smoothie.id AND RaakaAine.nimi = ?");
+            try (PreparedStatement stmt = conn.prepareStatement("SELECT COUNT (DISTINCT Smoothie.nimi) FROM Smoothie, SmoothieRaakaAine, RaakaAine "
+                    + "WHERE RaakaAine.nimi = ? AND SmoothieRaakaAine.raaka_aine_id = RaakaAine.id AND SmoothieRaakaAine.smoothie_id = Smoothie.id")) {
 
                 stmt.setString(1, raaka_aine_nimi);
                 
                 ResultSet rs = stmt.executeQuery();
                 if (!rs.next()) {
-                    monessa = rs.getInt("count");
+                    monessa = rs.getInt(1);
                 }
                 
                 conn.close();
-            
+            }
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
