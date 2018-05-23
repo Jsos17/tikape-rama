@@ -1,4 +1,4 @@
-# Tietokantojen perusteet kurssin **ryhmätyö**
+# Rymmätyö Tietokantojen perusteet kurssille
 
 ## Smoothie tietokanta (sovellus poistettu Herokusta)
 
